@@ -1,20 +1,22 @@
 import axios from 'axios';
 
-// Criar uma instância do axios com a URL base da API para cada API que você deseja consumir
 
-// API Produto e Pedido
-export const apiPP = axios.create({
-  ppURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
+
+
+export const apiPedidos = axios.create({
+  baseURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
 })
 
-// API Usuário e Carrinho
-export const apiUC = axios.create({
-  ucURL: 'https://681c9922f74de1d219ad056c.mockapi.io/api'
+export const apiProdutos = axios.create({
+  baseURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
+})
+
+export const apiUsuarios = axios.create({
+  baseURL: 'https://681c9922f74de1d219ad056c.mockapi.io/api'
+})
+
+export const apiCarrinho = axios.create({
+  baseURL: 'https://681c9922f74de1d219ad056c.mockapi.io/api'
 })
 
 
-
-//caso esteja consumindo uma api local
-// export const localApi = axios.create({
-//     baseURL : 'http://localhost:8080'
-// })
