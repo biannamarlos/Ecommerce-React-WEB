@@ -10,8 +10,8 @@ export function Navbar() {
           src="https://biomob.org/_next/image?url=%2FpartnesLogos%2Fserratec_branco.png&w=3840&q=100"
           alt="imagem" />
         <ul className={styles.navItens}>
-          <li>Carrinho</li>
-          <li>Perfil</li>
+          <li>Categorias</li>
+          <li>Produtos</li>
           <li>Registro</li>
           <li>Login</li>
         </ul>
