@@ -1,65 +1,44 @@
 import { useState } from "react";
-import { Navbar } from "../../components/navbar/navBar"
-import { SideBar } from "../../components/sideBar/sideBar"
-import { Card } from "../../components/card/card"
-import styles from "./home.module.css"
+import { Navbar } from "../../components/navbar/navBar";
+import { SideBar } from "../../components/sideBar/sideBar";
+import { Card } from "../../components/card/card";
+import styles from "./home.module.css";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
+import { listarProdutos } from "../../services/produtos";
 
 export function HomePage() {
     const [abrirSidebar, setabrirSidebar] = useState(false);
+    const [produtos, setProdutos] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const produtos = [
-        {
-            id: 1,
-            name: "Produto 1",
-            preço: 10.99
-        },
-        {
-            id: 2,
-            name: "Produto 2",
-            preço: 10.99
-        },
-        {
-            id: 3,
-            name: "Produto 3",
-            preço: 10.99
-        },
-        {
-            id: 4,
-            name: "Produto 4",
-            preço: 10.99
-        },
-        {
-            id: 5,
-            name: "Produto 5",
-            preço: 10.99
-        },
-        {
-            id: 6,
-            name: "Produto 6",
-            preço: 10.99
-        }
-
-    ];
-
-
+    function mostrarProdutos() {
+        setLoading(true);
+        listarProdutos()
+            .then(response => setProdutos(response.data))
+            .catch(error => console.error(error))
+            .finally(() => setLoading(false));
+    }
 
     return (
         <>
             <Navbar />
-            <ButtonSB
-                abrirSidebar={abrirSidebar} onClick={() => setabrirSidebar(open => !open)} />
-            <SideBar abrirSidebar={abrirSidebar} />
-
+            <ButtonSB abrirSidebar={abrirSidebar} onClick={() => setabrirSidebar(open => !open)} />
+            <SideBar abrirSidebar={abrirSidebar} onListarProdutos={mostrarProdutos} />
             <div className={styles.container}>
-                <ul className={styles.cardGrid}>
-                    {produtos.map((produto, index) => (
-                        <Card key={index}>
-                            {produto.name} - R$ {produto.preço}
-                        </Card>
-                    ))}
-                </ul>
+                {loading ? (
+                    <p>Carregando...</p>
+                ) : produtos.length > 0 ? (
+                    <ul className={styles.cardGrid}>
+                        {produtos.map((produto, index) => (
+                            <Card key={produto.id || index}>
+                                {produto.nome} - R$ {produto.preco}
+                            </Card>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Nada por enquanto</p>
+                )}
             </div>
         </>
-    )
+    );
 }

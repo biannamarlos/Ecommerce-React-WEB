@@ -6,7 +6,7 @@ export function ButtonSB({ abrirSidebar, onClick }) {
             className={`${styles.buttonSB} ${abrirSidebar ? styles.abrir : styles.fechar}`}
             onClick={onClick}
         >
-            {abrirSidebar ? "|||" : "|||"}
+            {abrirSidebar ? "←" : "→"}
         </button>
     );
 }

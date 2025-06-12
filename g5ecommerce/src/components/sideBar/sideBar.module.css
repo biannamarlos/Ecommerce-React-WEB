@@ -32,3 +32,7 @@
     font-size: larger;
     padding-left: 1rem;
 }
+
+.produtos:hover {
+  cursor: pointer;
+}
