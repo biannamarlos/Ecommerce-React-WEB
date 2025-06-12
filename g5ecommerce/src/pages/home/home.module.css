@@ -19,3 +19,34 @@
     margin: 0;
 
 }
+
+.produto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.categoria{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  
+}
+
+.categoria:hover{
+    cursor: pointer;
+}
+
+.listaCat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}

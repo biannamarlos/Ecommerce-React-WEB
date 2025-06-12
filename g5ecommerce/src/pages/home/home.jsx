@@ -61,10 +61,10 @@ export function HomePage() {
         <>
             <Navbar onInicio={irParaInicio} />
             <ButtonSB abrirSidebar={abrirSidebar} onClick={() => setabrirSidebar(open => !open)} />
-            <SideBar 
-                abrirSidebar={abrirSidebar} 
-                onListarProdutos={mostrarProdutos} 
-                onListarCategorias={mostrarCategorias} 
+            <SideBar
+                abrirSidebar={abrirSidebar}
+                onListarProdutos={mostrarProdutos}
+                onListarCategorias={mostrarCategorias}
             />
             <div className={styles.container}>
                 {loading ? (
@@ -80,7 +80,9 @@ export function HomePage() {
                             <ul className={styles.cardGrid}>
                                 {produtos.map((produto, index) => (
                                     <Card key={produto.id || index}>
-                                        {produto.nome} - R$ {produto.preco}
+                                        <li className={styles.produto}>
+                                            {produto.nome} - R$ {produto.preco}
+                                        </li>
                                     </Card>
                                 ))}
                             </ul>
@@ -90,16 +92,15 @@ export function HomePage() {
                     </>
                 ) : (
                     categorias.length > 0 ? (
-                        <ul>
-                            {categorias.map((cat, i) => (
-                                <li key={i}>
-                                    <button 
-                                        onClick={() => mostrarProdutosPorCategoria(cat)} 
-                                        style={{background:"none",border:"none",color:"inherit",cursor:"pointer"}}
+                        <ul className={styles.cardGrid}>
+                            {categorias.map((categoria, index) => (
+                                <Card key={index}>
+                                    <li className={styles.categoria}
+                                        onClick={() => mostrarProdutosPorCategoria(categoria)}
                                     >
-                                        {cat}
-                                    </button>
-                                </li>
+                                        {categoria}
+                                    </li>
+                                </Card>
                             ))}
                         </ul>
                     ) : (
