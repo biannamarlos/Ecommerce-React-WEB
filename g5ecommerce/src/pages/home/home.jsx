@@ -36,8 +36,8 @@ export function HomePage() {
         setTela("categorias");
         setCategoriaSelecionada(null);
         try {
-            const cats = await listarCategoriasUnicas();
-            setCategorias(cats);
+            const categorias = await listarCategoriasUnicas();
+            setCategorias(categorias);
         } catch (error) {
             console.error(error);
         }
@@ -73,9 +73,12 @@ export function HomePage() {
                     <h2>Bem-vindo ao nosso site</h2>
                 ) : tela === "produtos" ? (
                     <>
+                        <div className={styles.prodCat}>
+
                         {categoriaSelecionada && (
-                            <h3>Produtos da categoria: {categoriaSelecionada}</h3>
+                            <h3 >Produtos da categoria: {categoriaSelecionada}</h3>
                         )}
+                        </div>
                         {produtos.length > 0 ? (
                             <ul className={styles.cardGrid}>
                                 {produtos.map((produto, index) => (
@@ -98,6 +101,7 @@ export function HomePage() {
                                     <li className={styles.categoria}
                                         onClick={() => mostrarProdutosPorCategoria(categoria)}
                                     >
+                                       
                                         {categoria}
                                     </li>
                                 </Card>

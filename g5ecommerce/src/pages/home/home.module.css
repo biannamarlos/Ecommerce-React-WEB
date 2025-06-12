@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: #332216;
     margin: 0;
     padding: 0;
@@ -38,5 +38,12 @@
 
 .categoria:hover{
     cursor: pointer;
+}
+
+.prodCat {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 100px;
 }
 
