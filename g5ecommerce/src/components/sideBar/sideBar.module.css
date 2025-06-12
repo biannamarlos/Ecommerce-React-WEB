@@ -10,7 +10,16 @@
     top: 0;
     left: 0;
     padding-top: 2rem;
-    border: black solid 1px;
+    border: rgb(0, 0, 0) solid 1px;
+    transition: left 0.3s;
+}
+
+.abrirSidebar {
+  left: 0;
+}
+
+.fecharSidebar {
+  left: -10rem;
 }
 
 .sideItens {
