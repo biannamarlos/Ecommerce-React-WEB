@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../components/card/card";
-import { apiPP, UCapi } from "../../services/api"; // Importando a instância do axios
+
 
 import styles from "./cart.module.css";
 
