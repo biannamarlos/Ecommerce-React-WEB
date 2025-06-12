@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 
 import './App.css'
@@ -10,6 +11,7 @@ function App() {
   return (
     <Register/>
   );
+
 }
 
-export default App
+export default App;

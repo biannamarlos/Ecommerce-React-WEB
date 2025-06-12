@@ -1,0 +1,49 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #332216;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+
+.produto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.categoria{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  
+}
+
+.categoria:hover{
+    cursor: pointer;
+}
+
+.prodCat {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 100px;
+}
+

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+
 import { Register } from "../pages/register/register";
 
 export function Rotas() {
