@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import { HomePage } from "../pages/home/home";
-import { NotFoundPage } from "../pages/notFound/notFound";
-import Cart from "../pages/cart/cart";
+import { HomePage } from "../pages/home/home"
+import { Register } from "../pages/register/register";
 
 export function Rotas() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/carrinho" element={<Cart />} />
-      <Route path="/*" element={<NotFoundPage />} />
+      <Route path="/" element={<HomePage/>}/>
+      <Route path="/cadastrar" element={<Register/>}/>
     </Routes>
   );
 }
+//corrigir depois

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 
+
+import { Card } from "../../components/card/card";
+
+
+
 import styles from "./cart.module.css";
 import { getCarrinho } from "../../services/carrinho";
 import { apiPP, apiUC } from "../../services/api";
