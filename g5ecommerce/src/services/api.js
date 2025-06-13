@@ -4,12 +4,12 @@ import axios from 'axios';
 
 // API Produto e Pedido
 export const apiPP = axios.create({
-  ppURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
+  baseURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
 })
 
 // API Usuário e Carrinho
 export const apiUC = axios.create({
-  ucURL: 'https://681c9922f74de1d219ad056c.mockapi.io/api'
+  baseURL: 'https://681c9922f74de1d219ad056c.mockapi.io/api'
 })
 
 
