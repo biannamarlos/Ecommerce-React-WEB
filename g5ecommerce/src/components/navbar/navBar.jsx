@@ -1,21 +1,27 @@
 import styles from "./navBar.module.css"
 
-export function Navbar({onInicio}) {
+export function Navbar({ onInicio }) {
   return (
-    <>
-      <nav className={styles.navbar}>
+    <nav className={styles.navbar}>
+      
+      <div className={styles.logoBox}>
         <img
-          style={{ width: "170px", height: "80px", paddingBottom: "1.5rem" }}
           className={styles.logoImage}
+          alt="imagem"
           src="https://biomob.org/_next/image?url=%2FpartnesLogos%2Fserratec_branco.png&w=3840&q=100"
-          alt="imagem" />
-        <ul className={styles.navItens}>
-          <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
-          <li>Registro</li>
-          <li>Login</li>
-        </ul>
-      </nav>
-    </>
+        />
+      </div>
+      
+      <ul className={styles.navItens}>
+        <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
+        <li>Registro</li>
+        <li>Login</li>
+      </ul>
+     
+      <button className={styles.carrinhoBtn} title="Carrinho">
+        🛒
+      </button>
+    </nav>
   );
 }
 

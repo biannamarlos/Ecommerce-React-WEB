@@ -13,6 +13,8 @@ export function HomePage() {
     const [loading, setLoading] = useState(false);
     const [tela, setTela] = useState("inicio");
     const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
+    const [quantidade, setQuantidade] = useState({})
+
 
     function irParaInicio() {
         setTela("inicio");
@@ -57,6 +59,22 @@ export function HomePage() {
             .finally(() => setLoading(false));
     }
 
+    function incrementar(id) {
+        setQuantidade(q => ({
+            ...q,
+            [id]: (q[id] || 1) + 1
+        }));
+    }
+
+    function decrementar(id) {
+        setQuantidade(q => ({
+            ...q,
+            [id]: q[id] > 1 ? q[id] - 1 : 1
+        }));
+    }
+
+
+
     return (
         <>
             <Navbar onInicio={irParaInicio} />
@@ -75,19 +93,30 @@ export function HomePage() {
                     <>
                         <div className={styles.prodCat}>
 
-                        {categoriaSelecionada && (
-                            <h3 >Produtos da categoria: {categoriaSelecionada}</h3>
-                        )}
+                            {categoriaSelecionada && (
+                                <h3 >Produtos da categoria: {categoriaSelecionada}</h3>
+                            )}
                         </div>
                         {produtos.length > 0 ? (
                             <ul className={styles.cardGrid}>
                                 {produtos.map((produto, index) => (
                                     <Card key={produto.id || index}>
                                         <li className={styles.produto}>
-                                            {produto.nome} - R$ {produto.preco}
+                                            <div className={styles.infoColuna}>
+                                                <strong className={styles.nome}>{produto.nome}</strong>
+                                                <span className={styles.preco}>R$ {produto.preco}</span>
+                                                <span className={styles.descricao}>Descrição: {produto.descricao}</span>
+                                                <div className={styles.quantidade}>
+                                                    <button onClick={() => decrementar(produto.id || index)}> ➖ </button>
+                                                    <span>{quantidade[produto.id || index] || 1}</span>
+                                                    <button onClick={() => incrementar(produto.id || index)}> ➕ </button>
+                                                </div>
+                                                <button className={styles.botaoAdd}>Add to cart</button>
+                                            </div>
                                         </li>
                                     </Card>
                                 ))}
+
                             </ul>
                         ) : (
                             <p>Nenhum produto encontrado</p>
@@ -95,18 +124,19 @@ export function HomePage() {
                     </>
                 ) : (
                     categorias.length > 0 ? (
-                        <ul className={styles.cardGrid}>
+                        <ul className={styles.cardGridCategorias}>
                             {categorias.map((categoria, index) => (
                                 <Card key={index}>
                                     <li className={styles.categoria}
                                         onClick={() => mostrarProdutosPorCategoria(categoria)}
                                     >
-                                       
+
                                         {categoria}
                                     </li>
                                 </Card>
                             ))}
                         </ul>
+
                     ) : (
                         <p>Nenhuma categoria encontrada</p>
                     )
