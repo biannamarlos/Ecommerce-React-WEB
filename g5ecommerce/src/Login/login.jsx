@@ -18,7 +18,7 @@ export function Login() {
         const usuarioEncontrado = data[0];
         if (usuarioEncontrado.email === email && usuarioEncontrado.senha === senha) {
           localStorage.setItem("usuario", usuarioEncontrado.id);
-          console.log("Sucesso!");
+          localStorage.setItem("nomeUsuario", usuarioEncontrado.nome);
           navigate("/");
   }
 }
