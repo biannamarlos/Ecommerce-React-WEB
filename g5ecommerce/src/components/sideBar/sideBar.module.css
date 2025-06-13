@@ -36,3 +36,7 @@
 .produtos:hover {
   cursor: pointer;
 }
+
+.categorias:hover {
+  cursor: pointer;
+}

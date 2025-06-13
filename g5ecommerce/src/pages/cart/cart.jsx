@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 
+
+import { Card } from "../../components/card/card";
+
+
+
 import styles from "./cart.module.css";
 import { getCarrinho } from "../../services/carrinho";
-import { apiPP, apiUC } from "../../services/api";
+import { apiProdutos, apiPedidos, apiUsuarios, apiCarrinho } from "../../services/api";
 import axios from "axios";
 
 export function Cart() {
@@ -13,15 +18,15 @@ export function Cart() {
   const [produto, setProduto] = useState([]);
   const [usuario, setUsuario] = useState([]);
   const [loading, setLoading] = useState(false);
-  const totalPrice = useMemo(
-    () => cartList.reduce((acc, item) => acc + item.produto.preco * item.quantidade, 0),
-    [cartList]
-  );
+  // const totalPrice = useMemo(
+  //   () => cartList.reduce((acc, item) => acc + item.produto.preco * item.quantidade, 0),
+  //   [cartList]
+  // );
 
   function carregarUsuario(UsuarioId) {
     setLoading(true);
     console.log("Carregando usuário com ID:", usuarioId);
-    apiUC
+    apiUsuarios
       .get("/usuarios?id=" + usuarioId)
       .then((response) => {
         const userData = response.data[0]; // Supondo que seja um único usuário
@@ -51,7 +56,7 @@ export function Cart() {
     console.log("Carregando Carrinho");
     setLoading(true);
 
-    apiUC
+    apiCarrinho
       .get("/carrinho?usuario=" + usuarioId)
       .then((response) => {
         if (response.data && response.data.length > 0) {
@@ -86,8 +91,7 @@ export function Cart() {
   function carregarProdutos(idProduto) {
     setLoading(true);
     console.log("/Produto?id=" + idProduto);
-    apiPP
-      //  /Produto?id=1
+    apiProdutos
       .get("/Produto?id=" + idProduto)
       .then((response) => {
         setProduto(response.data);
