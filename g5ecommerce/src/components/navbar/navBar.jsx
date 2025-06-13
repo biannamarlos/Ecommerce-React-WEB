@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./navBar.module.css"
 
 export function Navbar({ onInicio }) {
+  const navigate = useNavigate();
+
   return (
     <nav className={styles.navbar}>
       
@@ -14,7 +17,7 @@ export function Navbar({ onInicio }) {
       
       <ul className={styles.navItens}>
         <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
-        <li>Registro</li>
+        <li className={styles.navRegistro} onClick={()=> navigate("/cadastrar")} >Registro</li>
         <li>Login</li>
       </ul>
      
