@@ -1,9 +1,12 @@
 // IMPORTAÇÕES:
-// CSS, ROTAS, USEEFFECT PARA MODIFICAR A PÁGINA LOGADA, INSTÂNCIA DO AXIOS
+// CSS, ROTAS, USEEFFECT PARA MODIFICAR A PÁGINA LOGADA, INSTÂNCIA DO AXIOS, NAVBAR, SIDEBAR
 
+import { Navbar } from "../../components/navbar/navBar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiUC } from "../../services/api"; 
+import { apiUsuarios as apiUC } from "../../services/api";
+import { ButtonSB } from "../../components/buttonSB/buttonSB";
+import { SideBarPerfil } from "../../components/sideBarPerfil/sideBarPerfil";
 import styles from "./profile.module.css"; 
 
 export default function Perfil() {
@@ -13,22 +16,34 @@ export default function Perfil() {
     const [user, setUser] = useState({});
     const navigate = useNavigate();
 
+
+    // ALTERNAR MENU INTERATIVO
+    const [menuAberto, setMenuAberto] = useState(false);
+
+    const alternarMenu = () => {
+         setMenuAberto(!menuAberto);
+    };
+
     // ALTERAR PERFIL
     const [editando, setEditando] = useState(false);
     const [formData, setFormData] = useState({});
 
     // SALVA O USER LOGADO NO LOCALSTORAGE
-    const userId = localStorage.getItem("userId");
+    const userId = 33;
 
     // TRAZ OS DADOS DO USUÁRIO LOGADO E SALVA NO SETUSER
     const getUserData = () => {
-        apiUC
-            .get(`/usuarios/${userId}`)
-            .then((res) => {
-                setUser(res.data);
-                setFormData(res.data);
-            })
-            .catch((err) => console.error("Erro ao buscar dados do usuário.", err));
+    console.log("🚀 Buscando dados do usuário com ID:", userId);
+    apiUC
+        .get(`/usuarios/${userId}`)
+        .then((res) => {
+            console.log("✅ Dados recebidos:", res.data);
+            setUser(res.data);
+            setFormData(res.data);
+        })
+        .catch((err) => {
+            console.error("❌ Erro ao buscar dados do usuário.", err);
+        });
     };
 
     // EMITE NA TELA OS DADOS DO USUÁRIO LOGADO
@@ -90,108 +105,120 @@ export default function Perfil() {
 
     return (
         <div className={styles.container}>
-            <h1>Perfil do Usuário</h1>
-            {!editando ? (
-                <div className={styles.infoContainer}>
-                    <p><strong>Nome:</strong> {user.nome}</p>
-                    <p><strong>Email:</strong> {user.email}</p>
-                    <p><strong>Telefone:</strong> {user.telefone}</p>
-                    <p><strong>Endereço:</strong> {user.endRua}, {user.endNum} - {user.endCompl}</p>
-                    <p><strong>Bairro:</strong> {user.endBairro}</p>
-                    <p><strong>Cidade:</strong> {user.endCidade} - {user.endUF}</p>
-                    <p><strong>CEP:</strong> {user.endCEP}</p>
-                    <p><strong>Tipo:</strong> {user.tipo}</p>
-                    <div className={styles.buttonGroup}>
-                        <button onClick={alternarEdicao}>Editar Perfil</button>
-                        <button onClick={logout}>Logout</button>
-                        <button onClick={deletar}>Excluir Conta</button>
+            <Navbar />
+            <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
+            <SideBarPerfil
+                abrirSidebar={menuAberto}
+                onEditar={alternarEdicao}
+                onExcluir={deletar}
+                onLogout={logout}
+            />
+            <div className={styles.profileWrapper}>
+                <div className={styles.titleContainer}>
+                    <h1>Perfil do Usuário</h1>
+                </div>
+                {!editando ? (
+                    <div className={styles.infoContainer}>
+                        <p><strong>Nome:</strong> {user.nome}</p>
+                        <p><strong>Email:</strong> {user.email}</p>
+                        <p><strong>Telefone:</strong> {user.telefone}</p>
+                        <p><strong>Endereço:</strong> {user.endRua}, {user.endNum} - {user.endCompl}</p>
+                        <p><strong>Bairro:</strong> {user.endBairro}</p>
+                        <p><strong>Cidade:</strong> {user.endCidade} - {user.endUF}</p>
+                        <p><strong>CEP:</strong> {user.endCEP}</p>
+                        <p><strong>Tipo:</strong> {user.tipo}</p>
+                        <div className={styles.buttonGroup}>
+                            <button onClick={alternarEdicao}>EDITAR PERFIL</button>
+                            <button onClick={logout}>LOGOUT</button>
+                            <button onClick={deletar}>DELETAR CONTA</button>
+                        </div>
                     </div>
-                </div>
-            ) : (
-            <div className={styles.editContainer}>
-                <input
-                type="text"
-                name="nome"
-                placeholder="Nome"
-                value={formData.nome || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="telefone"
-                placeholder="Telefone"
-                value={formData.telefone || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endRua"
-                placeholder="Rua"
-                value={formData.endRua || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endNum"
-                placeholder="Número"
-                value={formData.endNum || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endCompl"
-                placeholder="Complemento"
-                value={formData.endCompl || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endBairro"
-                placeholder="Bairro"
-                value={formData.endBairro || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endCidade"
-                placeholder="Cidade"
-                value={formData.endCidade || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endUF"
-                placeholder="Estado"
-                value={formData.endUF || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="endCEP"
-                placeholder="CEP"
-                value={formData.endCEP || ""}
-                onChange={alterarCampo}
-                />
-                <input
-                type="text"
-                name="tipo"
-                placeholder="Tipo"
-                value={formData.tipo || ""}
-                onChange={alterarCampo}
-                />
-                <div className={styles.buttonGroup}>
-                    <button onClick={salvarAlteracoes}>Salvar</button>
-                    <button onClick={alternarEdicao}>Cancelar</button>
-                </div>
+                ) : (
+                    <div className={styles.editContainer}>
+                        <input
+                            type="text"
+                            name="nome"
+                            placeholder="Nome"
+                            value={formData.nome || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="telefone"
+                            placeholder="Telefone"
+                            value={formData.telefone || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endRua"
+                            placeholder="Rua"
+                            value={formData.endRua || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endNum"
+                            placeholder="Número"
+                            value={formData.endNum || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endCompl"
+                            placeholder="Complemento"
+                            value={formData.endCompl || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endBairro"
+                            placeholder="Bairro"
+                            value={formData.endBairro || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endCidade"
+                            placeholder="Cidade"
+                            value={formData.endCidade || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endUF"
+                            placeholder="Estado"
+                            value={formData.endUF || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="endCEP"
+                            placeholder="CEP"
+                            value={formData.endCEP || ""}
+                            onChange={alterarCampo}
+                        />
+                        <input
+                            type="text"
+                            name="tipo"
+                            placeholder="Tipo"
+                            value={formData.tipo || ""}
+                            onChange={alterarCampo}
+                        />
+                        <div className={styles.buttonGroup}>
+                            <button onClick={salvarAlteracoes}>SALVAR</button>
+                            <button onClick={alternarEdicao}>CANCELAR</button>
+                        </div>
+                    </div>
+                )}
             </div>
-            )}
         </div>
     );
 }
