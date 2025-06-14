@@ -78,6 +78,7 @@
 .descricao {
   color: #dad3d3;
   font-size: 0.95rem;
+
 }
 
 .botaoAdd {
@@ -86,7 +87,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 0;
     border: none;
     border-radius: 10%;
     background-color: #2ecc71;
@@ -104,11 +105,11 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 30px;
+    margin-top: 0.5px;
 }
 
 .quantidade button {
-  width: 10px;
+  width: 50px;
   height: 30px;
   font-size: 20px;
   font-weight: bold;
@@ -120,7 +121,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
 }
 
 
@@ -130,3 +131,14 @@
   font-size: 18px;
   
 }
+
+.imagemProduto {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 5px;
+    background-color: #544823;
+    box-shadow: 8px 8px 4px 0px black;
+    margin: 0;
+    padding: 0;
+    margin-top: -20px;
+  }

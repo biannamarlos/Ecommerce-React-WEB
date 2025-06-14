@@ -5,6 +5,7 @@ import { Card } from "../../components/card/card";
 import styles from "./home.module.css";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
 import { listarProdutos, listarCategoriasUnicas } from "../../services/produtos";
+import { apiCarrinho } from "../../services/api";
 
 export function HomePage() {
     const [abrirSidebar, setabrirSidebar] = useState(false);
@@ -14,6 +15,8 @@ export function HomePage() {
     const [tela, setTela] = useState("inicio");
     const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
     const [quantidade, setQuantidade] = useState({})
+    const nomeUsuario = localStorage.getItem("nomeUsuario");
+
 
 
     function irParaInicio() {
@@ -73,11 +76,51 @@ export function HomePage() {
         }));
     }
 
+    async function adicionarAoCarrinho(produto, quantidade) {
+        const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const indexProduto = carrinho.findIndex(item => item.id === produto.id);
+        if (indexProduto >= 0) {
+            carrinho[indexProduto].quantidade += quantidade;
+        } else {
+            carrinho.push({ ...produto, quantidade });
+        }
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
+
+        try {
+            await salvarCarrinhoNaAPI(carrinho);
+            alert('Produto adicionado ao carrinho!');
+        } catch (error) {
+            alert("Falha ao salvar carrinho na API!");
+            console.error(error);
+        }
+    }
+
+    async function salvarCarrinhoNaAPI(carrinho) {
+        try {
+            const response = await fetch("https://681c9922f74de1d219ad056c.mockapi.io/api/carrinho", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ usuarioId, itens: carrinho }),
+            });
+            if (!response.ok) throw new Error("Erro ao salvar carrinho na API");
+        } catch (error) {
+            alert("Falha ao salvar carrinho na API!");
+            console.error(error);
+        }
+    }
+
+    async function salvarCarrinhoNaAPI(carrinho) {
+        const usuarioId = localStorage.getItem('usuario');
+        await apiCarrinho.post("/carrinho", {
+            usuario: usuarioId,
+            itens: carrinho
+        });
+    }
 
     return (
         <>
-            <Navbar onInicio={irParaInicio} />
+            <Navbar onInicio={irParaInicio} nomeUsuario={nomeUsuario} />
             <ButtonSB abrirSidebar={abrirSidebar} onClick={() => setabrirSidebar(open => !open)} />
             <SideBar
                 abrirSidebar={abrirSidebar}
@@ -103,6 +146,11 @@ export function HomePage() {
                                     <Card key={produto.id || index}>
                                         <li className={styles.produto}>
                                             <div className={styles.infoColuna}>
+                                                <img
+                                                    src={produto.foto}
+                                                    alt={produto.nome}
+                                                    className={styles.imagemProduto}
+                                                />
                                                 <strong className={styles.nome}>{produto.nome}</strong>
                                                 <span className={styles.preco}>R$ {produto.preco}</span>
                                                 <span className={styles.descricao}>Descrição: {produto.descricao}</span>
@@ -111,7 +159,17 @@ export function HomePage() {
                                                     <span>{quantidade[produto.id || index] || 1}</span>
                                                     <button onClick={() => incrementar(produto.id || index)}> ➕ </button>
                                                 </div>
-                                                <button className={styles.botaoAdd}>Add to cart</button>
+                                                <button
+                                                    className={styles.botaoAdd}
+                                                    onClick={() =>
+                                                        adicionarAoCarrinho(
+                                                            produto,
+                                                            quantidade[produto.id || index] || 1
+                                                        )
+                                                    }
+                                                >
+                                                    Add to cart
+                                                </button>
                                             </div>
                                         </li>
                                     </Card>

@@ -35,7 +35,8 @@
   font-size: larger;
   margin: 0;
   padding: 0;
-  justify-content: center; 
+  justify-content: center;
+  margin-left: -73px;
 }
 
 .navInicio:hover{
@@ -44,6 +45,14 @@
 
 .navRegistro:hover {
   cursor: pointer;
+}
+
+.navLogin:hover {
+  cursor: pointer;
+}
+
+.nomeUsuario:hover {
+  cursor: pointer
 }
 
 .carrinhoBtn {
@@ -55,4 +64,11 @@
   margin-left: 1.5rem;
   display: flex;
   align-items: center;
+}
+
+.nomeUsuario {
+  color: #F7D9BC;
+  font-weight: bold;
+  font-size: larger;
+  margin-right: 1.5rem;
 }

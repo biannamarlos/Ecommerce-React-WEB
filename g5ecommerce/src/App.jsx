@@ -1,9 +1,8 @@
 
 import { useState } from 'react'
-
 import './App.css'
 import { Rotas } from './Routes/Routes'
-import { Register } from './pages/register/register'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +10,6 @@ function App() {
   return (
     <Rotas/>
   );
-
 }
 
 export default App;

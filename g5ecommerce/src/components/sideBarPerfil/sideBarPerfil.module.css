@@ -12,14 +12,15 @@
     padding-top: 2rem;
     border: rgb(0, 0, 0) solid 1px;
     transition: left 0.3s;
+    z-index: 500;
 }
 
 .abrirSidebar {
-  left: 0;
+    left: 0;
 }
 
 .fecharSidebar {
-  left: -10rem;
+    left: -10rem;
 }
 
 .sideItens {
@@ -30,14 +31,11 @@
     color: #F7D9BC;
     font-weight: bold;
     font-size: larger;
-    margin: 0;
-    padding: 0;
+    padding-left: 1rem;
+    cursor: pointer;
 }
 
-.produtos:hover {
-  cursor: pointer;
-}
-
-.categorias:hover {
-  cursor: pointer;
+.sideItens li:hover {
+    color: #fff;
+    text-decoration: underline;
 }

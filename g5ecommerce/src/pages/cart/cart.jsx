@@ -58,7 +58,15 @@ export function Cart() {
 
   function carregarProdutos(idProduto) {
     setLoading(true);
-    console.log(`Carregando Produto com ID: ${idProduto}`);
+    console.log("/Produto?id=" + idProduto);
+    apiProdutos
+      .get("/Produto?id=" + idProduto)
+      .then((response) => {
+        setProduto(response.data);
+        adicionarProduto(response.data);
+        console.log("Produto carregado com sucesso", produto);
+        console.log("ID do Produto", idProduto);
+      })
 
     apiProdutos
       .get(`/Produto?id=${idProduto}`)
@@ -114,5 +122,4 @@ export function Cart() {
     </div>
   );
 }
-
 export default Cart;
