@@ -1,7 +1,8 @@
+
 import { apiCarrinho } from "./api"
 
 export function getCarrinho() {
-    return apiCarrinho.get("/carrinho")
+    return apiCarrinho.get("/carrinho?usuario=" + String(localStorage.getItem("usuario")))
 }
 
 export function criarCarrinho(carrinho) {
@@ -15,3 +16,6 @@ export function atualizarCarrinho(carrinho) {
 export function excluirCarrinho(carrinho) {
     return apiCarrinho.delete("/carrinho/{id}", carrinho)
 }
+
+
+

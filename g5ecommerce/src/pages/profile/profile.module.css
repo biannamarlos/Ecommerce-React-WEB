@@ -1,0 +1,140 @@
+.container {
+  padding-top: 6rem;
+  padding-inline: 1rem;
+  background-color: #332216;
+  min-height: 100vh;
+  color: #F7D9BC;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  color: #F7D9BC;
+}
+
+.infoContainer,
+.editContainer {
+  max-width: 450px;
+  padding: 1.5rem 1rem;
+  margin: 1rem auto;
+  background-color: #F7D9BC;
+  border-radius: 15px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: #332216;
+}
+
+.infoContainer p {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d4a373; 
+  padding-bottom: 5px;
+}
+
+.infoContainer strong {
+  min-width: 100px; 
+  color: #be5103;
+}
+
+p {
+  margin: 0.8rem 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #e5c7a0;
+  padding-bottom: 0.5rem;
+}
+
+strong {
+  display: inline-block;
+  min-width: 100px;
+  color: #be5103;
+  font-weight: bold;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+button {
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #be5103;
+  color: #F7D9BC;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #a34300;
+  transform: translateY(-2px);
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
+}
+
+.inputGroup label {
+  color: #332216;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #be5103;
+  background-color: #fff8f0;
+  color: #332216;
+  font-size: 1rem;
+}
+
+.profileWrapper {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+hr.divisor {
+  border: none;
+  height: 1px;
+  background-color: #be5103;
+  margin: 1rem 0;
+}
+
+.infoContainer p, 
+.infoContainer strong, 
+.editContainer input, 
+.editContainer button, 
+.buttonGroup button {
+  color: #332216; 
+}
+
+.titleContainer {
+  max-width: 500px;                
+  margin: 2rem auto 1rem auto;      
+  background-color: #F7D9BC;        
+  border-radius: 16px;              
+  padding: 0.5rem 1rem;             
+  text-align: center;               
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  
+  color: #332216;                     
+  font-weight: bold;                
+  font-size: 1.5rem;                
+}
+
+.titleContainer h1 {
+  color: #332216;  
+  margin: 0;       
+  font-size: 1.8rem; 
+}

@@ -1,21 +1,33 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./navBar.module.css"
 
-export function Navbar({onInicio}) {
+export function Navbar({ onInicio, nomeUsuario }) {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <nav className={styles.navbar}>
+    <nav className={styles.navbar}>
+      
+      <div className={styles.logoBox}>
         <img
-          style={{ width: "170px", height: "80px", paddingBottom: "1.5rem" }}
           className={styles.logoImage}
+          alt="imagem"
           src="https://biomob.org/_next/image?url=%2FpartnesLogos%2Fserratec_branco.png&w=3840&q=100"
-          alt="imagem" />
-        <ul className={styles.navItens}>
-          <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
-          <li>Registro</li>
-          <li>Login</li>
-        </ul>
-      </nav>
-    </>
+        />
+      </div>
+      
+      <ul className={styles.navItens}>
+        <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
+        <li className={styles.navRegistro} onClick={()=> navigate("/cadastrar")} >Registro</li>
+        <li>Login</li>
+      </ul>
+     
+      <button className={styles.carrinhoBtn} title="Carrinho" onClick={() => navigate("/carrinho")}>
+        🛒
+      </button>
+      <span className={styles.nomeUsuario}>
+        {nomeUsuario}
+      </span>
+    </nav>
   );
 }
 

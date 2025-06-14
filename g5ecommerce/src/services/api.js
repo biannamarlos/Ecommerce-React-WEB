@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-
-
-
 export const apiPedidos = axios.create({
   baseURL: 'https://684ae5aa165d05c5d35ac2a5.mockapi.io/api'
 })

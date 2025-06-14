@@ -10,14 +10,36 @@
     align-items: center;
 }
 
+
 .cardGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-bottom: 50px;
 
+}
+
+.cardGridCategorias {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.categoria:hover{
+    cursor: pointer;
+}
+
+.prodCat {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 100px;
 }
 
 .produto {
@@ -36,14 +58,87 @@
   
 }
 
-.categoria:hover{
-    cursor: pointer;
+.infoColuna {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  gap: 6px; 
 }
 
-.prodCat {
+.nome {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.preco {
+  color: #2ecc71;
+  font-size: 1rem;
+}
+
+.descricao {
+  color: #dad3d3;
+  font-size: 0.95rem;
+
+}
+
+.botaoAdd {
+    height: 25px;
+    width: 150px;
     display: flex;
     justify-content: center;
-    align-content: center;
-    margin-bottom: 100px;
+    align-items: center;
+    margin-top: 0;
+    border: none;
+    border-radius: 10%;
+    background-color: #2ecc71;
+    transition: border-color 0.25s, background 0.25s
 }
 
+.botaoAdd:hover {
+    cursor: pointer;
+    background-color: #a04302;
+    border-color: #a04302;
+    
+}
+
+.quantidade {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0.5px;
+}
+
+.quantidade button {
+  width: 50px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #544823;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+
+.quantidade-container span {
+  min-width: 30px;
+  text-align: center;
+  font-size: 18px;
+  
+}
+
+.imagemProduto {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 5px;
+    background-color: #544823;
+    box-shadow: 8px 8px 4px 0px black;
+    margin: 0;
+    padding: 0;
+    margin-top: -20px;
+  }
