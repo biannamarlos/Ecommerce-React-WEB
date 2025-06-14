@@ -1,16 +1,18 @@
 .registerEdit{
+    color: #F7D9BC;
     background-color: #be5103;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    
 
 }
 
 .caixaEdit {
     width: 40rem;
-    height: 40rem;
+    height: 55rem;
     background-color: #332216;
     display: flex;
     align-items: center;
@@ -19,4 +21,39 @@
     border-radius: 5px;
     border: 1px solid black;
     box-shadow: 10px 10px 10px #332216;
+    flex-direction: column;
+}
+.tituloEdit{
+    margin-top: 2vh ;
+    margin-bottom: 2vh;
+}
+.dadosEdit{
+    margin: 0.5rem;
+}
+
+.inputDados{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem;
+}
+.inputDados input{
+    background-color: #be5103;
+    color: #F7D9BC;
+    width: 15rem;
+    height: 2rem;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+input::placeholder {
+  color: #F7D9BC;
+}
+
+.cadastraButton{
+    background-color: #be5103;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: #F7D9BC;
+    width: 6rem;
+    height: 2rem;
 }
