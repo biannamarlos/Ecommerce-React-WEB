@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./navBar.module.css"
 
-export function Navbar({ onInicio }) {
+export function Navbar({ onInicio, nomeUsuario }) {
   const navigate = useNavigate();
 
   return (
@@ -21,9 +21,12 @@ export function Navbar({ onInicio }) {
         <li>Login</li>
       </ul>
      
-      <button className={styles.carrinhoBtn} title="Carrinho">
+      <button className={styles.carrinhoBtn} title="Carrinho" onClick={() => navigate("/carrinho")}>
         🛒
       </button>
+      <span className={styles.nomeUsuario}>
+        {nomeUsuario}
+      </span>
     </nav>
   );
 }

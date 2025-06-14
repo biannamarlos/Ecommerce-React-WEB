@@ -56,3 +56,10 @@
   display: flex;
   align-items: center;
 }
+
+.nomeUsuario {
+  color: #F7D9BC;
+  font-weight: bold;
+  font-size: larger;
+  margin-right: 1.5rem;
+}
