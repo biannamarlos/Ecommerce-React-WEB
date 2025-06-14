@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
 
-
-import { Card } from "../../components/card/card";
-
-
-
 import styles from "./cart.module.css";
 import { getCarrinho } from "../../services/carrinho";
 import { apiProdutos, apiPedidos, apiUsuarios, apiCarrinho } from "../../services/api";
@@ -96,7 +91,7 @@ export function Cart() {
       .then((response) => {
         setProduto(response.data);
         adicionarProduto(response.data);
-        alert(`Produto ${item.nome} carregado com sucesso!`);
+      
         console.log("Produto carregado com sucesso", produto);
         console.log("ID do Produto", idProduto);
       })
