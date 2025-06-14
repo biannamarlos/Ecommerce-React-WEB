@@ -12,7 +12,7 @@ export const clearLocalStorage = () => {
 };
 
 //// Usuario
-export const usuario = 33;
+
 export const saveUsuario = (usuario) => {
   localStorage.setItem("usuario", usuario);
 };
