@@ -6,6 +6,7 @@ import Profile from "../pages/profile/profile";
 import Cart from "../pages/cart/cart";
 
 import { Login } from "../Login/login";
+import Perfil from "../pages/profile/profile";
 
 
 export function Rotas() {
