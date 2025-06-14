@@ -5,6 +5,7 @@ import { Register } from "../pages/register/register";
 import Cart from "../pages/cart/cart";
 
 import { Login } from "../Login/login";
+import Perfil from "../pages/profile/profile";
 
 
 export function Rotas() {
@@ -14,7 +15,7 @@ export function Rotas() {
       <Route path="/cadastrar" element={<Register/>}/>
 
       <Route path="/carrinho" element={<Cart />}/>
-
+      <Route path="/perfil" element={<Perfil/>}/>
       <Route path="/login" element={<Login/>}/>
 
     </Routes>

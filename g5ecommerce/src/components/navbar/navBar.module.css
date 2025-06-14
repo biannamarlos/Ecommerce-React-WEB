@@ -47,6 +47,14 @@
   cursor: pointer;
 }
 
+.navLogin:hover {
+  cursor: pointer;
+}
+
+.nomeUsuario:hover {
+  cursor: pointer
+}
+
 .carrinhoBtn {
   background: none;
   border: none;
