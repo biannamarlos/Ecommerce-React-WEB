@@ -23,17 +23,6 @@
     box-shadow: 10px 10px 10px #332216;
     flex-direction: column;
 }
-
-.logoSerratec{
-    background-color: #25AAE1;
-    position: absolute;
-    top: 0.5rem;
-    
-}
-
-.logoSerratec img{
-    width: 18rem;
-}
 .tituloEdit{
     margin-top: 2vh ;
     margin-bottom: 2vh;
