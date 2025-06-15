@@ -17,14 +17,14 @@ export function Navbar({ onInicio, nomeUsuario }) {
       
       <ul className={styles.navItens}>
         <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
-        <li className={styles.navRegistro} onClick={()=> navigate("/cadastrar")} >Registro</li>
-        <li>Login</li>
+        <li className={styles.navRegistro} title="Registro" onClick={()=> navigate("/cadastrar")} >Registro</li>
+        <li className={styles.navLogin} title="Login" onClick={() => navigate("/login")}>Login</li>
       </ul>
      
       <button className={styles.carrinhoBtn} title="Carrinho" onClick={() => navigate("/carrinho")}>
         🛒
       </button>
-      <span className={styles.nomeUsuario}>
+      <span className={styles.nomeUsuario} onClick={() => navigate("/perfil")}>
         {nomeUsuario}
       </span>
     </nav>
