@@ -3,10 +3,11 @@ import { Card } from "../../components/card/card";
 import styles from "./cart.module.css";
 import { apiProdutos, apiUsuarios, apiCarrinho } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { getUsuario } from "../../utils/localstorage";
 
 export function Cart() {
   const navigate = useNavigate();
-  const [usuarioId, setUsuarioId] = useState(() => localStorage.getItem("usuario"));
+  const [usuarioId, setUsuarioId] = useState(() => getUsuario());
   const [cartList, setCartList] = useState([
     {
       id: 0,
@@ -60,7 +61,7 @@ export function Cart() {
           setCartList(data);
           for (let index = 0; index < data.length; index++) {
             //const element = data[index];
-            alert(`Carregando produto ${index + 1} de ${data.length} - ${data[index].produto}`);
+            // alert(`Carregando produto ${index + 1} de ${data.length} - ${data[index].produto}`);
             carregarProdutos(index, data[index].produto);
             // const idsProdutos = data.map(({ produto }) => produto);
             // carregarProdutos(idsProdutos);
@@ -76,9 +77,9 @@ export function Cart() {
 
   function carregarProdutos(idCarrinho, idProduto) {
     setLoading(true);
-    alert(`Carregando produto ${idProduto} do carrinho ${idCarrinho} - dentro carregarProdutos()`);
-    alert(`Carrinho: ${cartList}`);
-    alert(`Produtos: ${produtosList}`);
+    // alert(`Carregando produto ${idProduto} do carrinho ${idCarrinho} - dentro carregarProdutos()`);
+    // alert(`Carrinho: ${cartList}`);
+    // alert(`Produtos: ${produtosList}`);
     apiProdutos
       .get(`/Produtos?id=${idProduto}`)
       .then(({ data }) => {
