@@ -1,36 +1,14 @@
 import { useEffect, useState } from "react";
-import { Card } from "../../components/card/card";
 import styles from "./cart.module.css";
-import { apiProdutos, apiUsuarios, apiCarrinho } from "../../services/api";
+import { apiUsuarios, apiCarrinho } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { getUsuario } from "../../utils/localstorage";
 
 export function Cart() {
   const navigate = useNavigate();
-  const [usuarioId, setUsuarioId] = useState(() => getUsuario());
-  const [cartList, setCartList] = useState([
-    {
-      id: 0,
-      produto: 0,
-      quantidade: 0,
-      nome: "",
-      descricao: "",
-      foto: "",
-      preco: 0.0,
-      estoque: 0,
-    },
-  ]);
-  const [produtosList, setProdutosList] = useState([
-    {
-      id: 0,
-      nome: "",
-      descricao: "",
-      foto: "",
-      preco: 0.0,
-      estoque: 0,
-      categoria: "",
-    },
-  ]);
+  const [usuarioId] = useState(() => getUsuario());
+  const [cartList, setCartList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [usuario, setUsuario] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -59,15 +37,11 @@ export function Cart() {
       .then(({ data }) => {
         if (data.length > 0) {
           setCartList(data);
-          for (let index = 0; index < data.length; index++) {
-            //const element = data[index];
-            // alert(`Carregando produto ${index + 1} de ${data.length} - ${data[index].produto}`);
-            carregarProdutos(index, data[index].produto);
-            // const idsProdutos = data.map(({ produto }) => produto);
-            // carregarProdutos(idsProdutos);
-          }
+
+          // Criando uma lista única de produtos
+          const novosProdutos = data.flatMap((item) => item.itens);
+          setProductList(novosProdutos);
         } else {
-          console.warn("Nenhum item encontrado no carrinho.");
           navigate("/");
         }
       })
@@ -75,50 +49,14 @@ export function Cart() {
       .finally(() => setLoading(false));
   }
 
-  function carregarProdutos(idCarrinho, idProduto) {
-    setLoading(true);
-    // alert(`Carregando produto ${idProduto} do carrinho ${idCarrinho} - dentro carregarProdutos()`);
-    // alert(`Carrinho: ${cartList}`);
-    // alert(`Produtos: ${produtosList}`);
-    apiProdutos
-      .get(`/Produtos?id=${idProduto}`)
-      .then(({ data }) => {
-        alert(data);
-        if (data.length > 0) {
-          alert(`Carregando produto ${idProduto} do carrinho ${idCarrinho} - dentro carregarProdutos`);
-          setCartList((prevCartList) => {
-            const newCartList = [...prevCartList];
-            newCartList[idCarrinho] = {
-              ...newCartList[idCarrinho],
-              nome: data.nome,
-              descricao: data.descricao,
-              foto: data.foto,
-              preco: data.preco,
-              estoque: data.estoque,
-              categoria: data.categoria,
-            };
-            return newCartList;
-          });
-        }
-      })
-      .catch((error) => console.error("Erro ao carregar usuário:", error))
-      .finally(() => setLoading(false));
-  }
-
-  function atualizarCartList(produtos) {
-    setCartList((prevCartList) =>
-      prevCartList.map((item) => {
-        const produtoEncontrado = produtos.find((p) => p.id === item.produto);
-        return produtoEncontrado ? { ...item, ...produtoEncontrado } : item;
-      })
-    );
-  }
-
-  const totalValor = cartList.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+  const totalValor = cartList.reduce((acc, item) => {
+    return acc + item.itens.reduce((subAcc, produto) => subAcc + parseFloat(produto.preco) * produto.quantidade, 0);
+  }, 0);
 
   return (
     <div className={styles.container}>
       <h3>🛒 Carrinho de Compras</h3>
+
       <div className={styles.cardCliente}>
         {usuario.nome && (
           <>
@@ -129,33 +67,34 @@ export function Cart() {
         )}
       </div>
 
-      <div className={styles.cartList}>
-        {cartList.map((item, id) => (
-          <div key={id} className={styles.cartItem}>
-            <img src={item.foto} alt={item.nome} className={styles.produtoImagem} />
-            <div className={styles.produtoDetalhes}>
+      {/* Container com GRID */}
+      <div className={styles.produtosGrid}>
+        {cartList.map((item) =>
+          item.itens.map((produto) => (
+            <div key={produto.id} className={styles.produtoCard}>
+              <img src={produto.foto} alt={produto.nome} className={styles.produtoImagem} />
               <p>
                 <strong>
-                  {item.id} - {item.nomeProduto}
+                  {produto.id} - {produto.nome}
                 </strong>
               </p>
-              <p>{item.descricaoProduto}</p>
+              <p>{produto.descricao}</p>
               <p>
-                <strong>Preço unitário:</strong> R$ {item.preco}
+                <strong>Preço unitário:</strong> R$ {produto.preco}
               </p>
               <p>
-                <strong>Quantidade:</strong> {item.quantidade}
+                <strong>Quantidade:</strong> {produto.quantidade}
               </p>
               <p>
-                <strong>Total:</strong> R$ {item.preco * item.quantidade}
+                <strong>Total:</strong> R$ {parseFloat(produto.preco) * produto.quantidade}
               </p>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       <div className={styles.total}>
-        <h3>🛍️ Total Geral: R$ {totalValor}</h3>
+        <h3>🛍️ Total Geral: R$ {totalValor.toFixed(2)}</h3>
       </div>
     </div>
   );
