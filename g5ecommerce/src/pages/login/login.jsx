@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./login.module.css";
 import { apiUsuarios } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { getUsuario } from "../../utils/localstorage";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -99,3 +100,4 @@ export function Login() {
     </div>
   );
 }
+export default Login;

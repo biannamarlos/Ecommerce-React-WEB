@@ -17,7 +17,7 @@ function About() {
         {agentes.map((agente, index) => (
           <div>
             {/* className={`${styles.card} ${styles.fadeIn}`} key={index} style={{ animationDelay: `${index * 0.2}s` }}> */}
-            <img src={agente.imagem} alt={agente.nome} />
+            <img src={agente.imagem} alt={agente.nome} className={styles.produtoImagem} />
             <h2>{agente.nome}</h2>
             <p>{agente.descricao}</p>
           </div>

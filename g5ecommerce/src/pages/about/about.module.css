@@ -51,6 +51,11 @@
   max-height: 150px; /* Evita imagens excessivamente grandes */
 }
 
+.produtoImagem {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
 .card h2 {
   color: #f3c68d;
   font-size: 1.2rem;

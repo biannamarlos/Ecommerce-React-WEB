@@ -133,3 +133,31 @@
   height: auto;
   border-radius: 6px;
 }
+
+.quantidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0.5px;
+}
+
+.quantidade button {
+  width: 50px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #544823;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantidade-container span {
+  min-width: 30px;
+  text-align: center;
+  font-size: 18px;
+}

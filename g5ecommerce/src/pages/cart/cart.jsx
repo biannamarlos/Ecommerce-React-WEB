@@ -13,6 +13,7 @@ export function Cart() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    //usuarioId = 33;
     carregarUsuario(usuarioId);
     carregarCarrinho(usuarioId);
   }, [usuarioId]);
@@ -37,10 +38,6 @@ export function Cart() {
       .then(({ data }) => {
         if (data.length > 0) {
           setCartList(data);
-
-          // Criando uma lista única de produtos
-          const novosProdutos = data.flatMap((item) => item.itens);
-          setProductList(novosProdutos);
         } else {
           navigate("/");
         }
@@ -48,15 +45,46 @@ export function Cart() {
       .catch((error) => console.error("Erro ao carregar carrinho:", error))
       .finally(() => setLoading(false));
   }
+  function incrementar(id) {
+    setCartList((prevCart) =>
+      prevCart.map((item) => ({
+        ...item,
+        itens: item.itens.map((produto) =>
+          produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
+        ),
+      }))
+    );
+  }
 
+  function decrementar(id) {
+    setCartList((prevCart) =>
+      prevCart.map((item) => ({
+        ...item,
+        itens: item.itens.map((produto) =>
+          produto.id === id ? { ...produto, quantidade: Math.max(1, produto.quantidade - 1) } : produto
+        ),
+      }))
+    );
+  }
+
+  function excluir(id) {
+    setCartList((prevCart) =>
+      prevCart.map((item) => ({
+        ...item,
+        itens: item.itens.filter((produto) => produto.id !== id),
+      }))
+    );
+  }
   const totalValor = cartList.reduce((acc, item) => {
     return acc + item.itens.reduce((subAcc, produto) => subAcc + parseFloat(produto.preco) * produto.quantidade, 0);
   }, 0);
 
   return (
     <div className={styles.container}>
-      <h3>🛒 Carrinho de Compras</h3>
-
+      {/* <h3>🛒 Carrinho de Compras</h3> */}
+      <div className={styles.total}>
+        <h3>🛒 Carrinho de Compras - 🛍️ Total Geral: R$ {totalValor.toFixed(2)}</h3>
+      </div>
       <div className={styles.cardCliente}>
         {usuario.nome && (
           <>
@@ -66,7 +94,6 @@ export function Cart() {
           </>
         )}
       </div>
-
       {/* Container com GRID */}
       <div className={styles.produtosGrid}>
         {cartList.map((item) =>
@@ -75,27 +102,29 @@ export function Cart() {
               <img src={produto.foto} alt={produto.nome} className={styles.produtoImagem} />
               <p>
                 <strong>
-                  {produto.id} - {produto.nome}
+                  {produto.nome} Preço R$ {parseFloat(produto.preco).toFixed(2)}
                 </strong>
               </p>
               <p>{produto.descricao}</p>
+
+              {/* <p className={styles.quantidade}> */}
+              <span> ´Quantidade: {produto.quantidade} `</span>
+              <button onClick={() => decrementar(produto.id)}> ➖ </button>
+              <button onClick={() => incrementar(produto.id)}> ➕ </button>
+              <button onClick={() => excluir(produto.id)}> 🗑️ </button>
+              {/* </p> */}
               <p>
-                <strong>Preço unitário:</strong> R$ {produto.preco}
-              </p>
-              <p>
-                <strong>Quantidade:</strong> {produto.quantidade}
-              </p>
-              <p>
-                <strong>Total:</strong> R$ {parseFloat(produto.preco) * produto.quantidade}
+                <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}
               </p>
             </div>
           ))
         )}
       </div>
 
-      <div className={styles.total}>
-        <h3>🛍️ Total Geral: R$ {totalValor.toFixed(2)}</h3>
-      </div>
+      <p></p>
+      <button>Finalizar Compra</button>
+      <p></p>
+      <button onClick={() => navigate("/")}>Voltar</button>
     </div>
   );
 }
