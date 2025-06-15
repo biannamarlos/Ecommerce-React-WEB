@@ -8,6 +8,7 @@ import { apiUsuarios as apiUC } from "../../services/api";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
 import { SideBarPerfil } from "../../components/sideBarPerfil/sideBarPerfil";
 import styles from "./profile.module.css"; 
+import jsPDF from "jspdf";
 
 export default function Perfil() {
 
@@ -104,6 +105,39 @@ export default function Perfil() {
         .catch((err) => console.error("Erro ao atualizar dados.", err));
     };
 
+    // FUNÇÃO EXPORTARPDF, CRIA UM DOC (PDF) EM BRANCO PELA BIBLIOTECA JSPDF
+    const exportarPDF = () => {
+        const doc = new jsPDF();
+        // DECLARA O TAMANHO DA FONTE DO PDF
+        doc.setFontSize(12);
+        // POSIÇÃO VERTICAL DO TEXTO, PARA NÃO COLAR NO TOPO DA PÁGINA
+        let y = 10;
+
+        // OBJETO JAVA SCRIPT ASSOCIADO AO VALOR DO USER.
+        const dadosExportados = {
+            Nome: user.nome,
+            Email: user.email,
+            Telefone: user.telefone,
+            Endereço: `${user.endRua}, ${user.endNum} - ${user.endCompl}`,
+            Bairro: user.endBairro,
+            Cidade: `${user.endCidade} - ${user.endUF}`,
+            CEP: user.endCEP,
+            Tipo: user.tipo,
+        };
+
+        // TRANSFORMA O OBJETO EM UMA LISTA DE PARES
+        // FOR EACH PERCORRE, ESCREVENDO NO PDF A CHAVE E O VALOR
+        // CASO SEJA NULO, APRESENTA -
+        // VALOR DE Y INCREMENTADO A CADA LINHA ESCRITA
+        Object.entries(dadosExportados).forEach(([chave, valor]) => {
+            doc.text(`${chave}: ${valor || "-"}`, 10, y);
+            y += 10;
+        });
+
+        // SALVA O PDF NO NAVEGADOR COM O NOME DADOS_NOME.PDF
+        doc.save(`dados_${user.nome || "usuario"}.pdf`);
+    };
+
     return (
         <div className={styles.container}>
             <Navbar />
@@ -134,6 +168,7 @@ export default function Perfil() {
                             <button onClick={alternarEdicao}>EDITAR PERFIL</button>
                             <button onClick={logout}>LOGOUT</button>
                             <button onClick={deletar}>DELETAR CONTA</button>
+                            <button onClick={exportarPDF}>EXPORTAR DADOS (PDF)</button>
                         </div>
                     </div>
                 ) : (
