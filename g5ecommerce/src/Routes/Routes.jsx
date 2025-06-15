@@ -10,12 +10,12 @@ import Perfil from "../pages/profile/profile";
 export function Rotas() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage/>}/>
-      <Route path="/cadastrar" element={<Register/>}/>
-      <Route path="/carrinho" element={<Cart />}/>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/perfil" element={<Profile/>}/>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/cadastrar" element={<Register />} />
+      <Route path="/carrinho" element={<Cart />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/perfil" element={<Profile />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 }
-

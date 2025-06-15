@@ -70,3 +70,42 @@
   font-weight: bold;
   color: #007bff;
 }
+/* Estilos para o Card do Cliente */
+.cardCliente {
+  max-width: 400px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.cardCliente:hover {
+  transform: scale(1.03);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.clienteInfo {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.clienteNome {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.clienteContato {
+  font-size: 14px;
+  color: #666;
+}
