@@ -29,7 +29,7 @@ export default function Perfil() {
     const [formData, setFormData] = useState({});
 
     // SALVA O USER LOGADO NO LOCALSTORAGE
-    const userId = localStorage.getItem("userID");
+    const userId = localStorage.getItem("usuario");
     // const userId = 33;
 
     // TRAZ OS DADOS DO USUÁRIO LOGADO E SALVA NO SETUSER
@@ -58,7 +58,7 @@ export default function Perfil() {
     // ENVIA PARA O LOGIN
     const logout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
     };
 
     // CONFIRMAÇÃO DO USUÁRIO, API -> DELETE
