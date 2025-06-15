@@ -1,0 +1,128 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6b4423, #4a3018);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+.loginBox {
+  background: rgba(222, 184, 135, 0.9);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+}
+
+.title {
+  text-align: center;
+  color: #4a3018;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  color: #4a3018;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  color: #4a3018;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 10px rgba(210, 105, 30, 0.5);
+  transform: translateY(-2px);
+}
+
+.input::placeholder {
+  color: #8b7355;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #d2691e, #b8590c);
+  color: white;
+  box-shadow: 0 4px 15px rgba(210, 105, 30, 0.4);
+}
+
+.primaryButton:hover {
+  background: linear-gradient(135deg, #b8590c, #a0490a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(210, 105, 30, 0.6);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.secondaryButton {
+  background: linear-gradient(135deg, #8b4513, #723609);
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
+}
+
+.secondaryButton:hover {
+  background: linear-gradient(135deg, #723609, #5d2c07);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.6);
+}
+
+.secondaryButton:active {
+  transform: translateY(0);
+}
+
+.savedInfo {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #d2691e;
+}
+
+.savedInfo p {
+  margin: 5px 0;
+  color: #4a3018;
+  font-weight: 500;
+}
