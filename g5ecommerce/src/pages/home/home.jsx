@@ -74,45 +74,48 @@ export function HomePage() {
     }));
   }
 
-  async function adicionarAoCarrinho(produto, quantidade) {
-    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-    const indexProduto = carrinho.findIndex((item) => item.id === produto.id);
+  // Função robusta para adicionar ao carrinho, sem duplicar produtos
+  async function adicionarAoCarrinho(produto, quantidadeParaAdicionar) {
+    let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const indexProduto = carrinho.findIndex(item => item.id === produto.id);
     if (indexProduto >= 0) {
-      carrinho[indexProduto].quantidade += quantidade;
+      carrinho[indexProduto].quantidade += quantidadeParaAdicionar;
     } else {
-      carrinho.push({ ...produto, quantidade });
+      carrinho.push({ ...produto, quantidade: quantidadeParaAdicionar });
     }
+    carrinho = carrinho.reduce((acc, item) => {
+      const existente = acc.find(i => i.id === item.id);
+      if (existente) {
+        existente.quantidade += item.quantidade;
+      } else {
+        acc.push({ ...item });
+      }
+      return acc;
+    }, []);
+
+
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
+
     try {
-      await salvarCarrinhoNaAPI(carrinho);
+      const usuarioId = localStorage.getItem("usuario");
+      const { data } = await apiCarrinho.get(`/carrinho?usuario=${usuarioId}`);
+      if (data && data.length > 0) {
+        await apiCarrinho.put(`/carrinho/${data[0].id}`, {
+          usuario: usuarioId,
+          itens: carrinho,
+        });
+      } else {
+        await apiCarrinho.post(`/carrinho`, {
+          usuario: usuarioId,
+          itens: carrinho,
+        });
+      }
       alert("Produto adicionado ao carrinho!");
     } catch (error) {
       alert("Falha ao salvar carrinho na API!");
       console.error(error);
     }
-  }
-
-  async function salvarCarrinhoNaAPI(carrinho) {
-    try {
-      const response = await fetch("https://681c9922f74de1d219ad056c.mockapi.io/api/carrinho", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuarioId, itens: carrinho }),
-      });
-      if (!response.ok) throw new Error("Erro ao salvar carrinho na API");
-    } catch (error) {
-      alert("Falha ao salvar carrinho na API!");
-      console.error(error);
-    }
-  }
-
-  async function salvarCarrinhoNaAPI(carrinho) {
-    const usuarioId = localStorage.getItem("usuario");
-    await apiCarrinho.post("/carrinho", {
-      usuario: usuarioId,
-      itens: carrinho,
-    });
   }
 
   return (
@@ -132,8 +135,8 @@ export function HomePage() {
             </div>
             {produtos.length > 0 ? (
               <ul className={styles.cardGrid}>
-                {produtos.map((produto, index) => (
-                  <Card key={produto.id || index}>
+                {produtos.map((produto) => (
+                  <Card key={produto.id}>
                     <li className={styles.produto}>
                       <div className={styles.infoColuna}>
                         <img src={produto.foto} alt={produto.nome} className={styles.imagemProduto} />
@@ -141,13 +144,13 @@ export function HomePage() {
                         <span className={styles.preco}>R$ {produto.preco}</span>
                         <span className={styles.descricao}>Descrição: {produto.descricao}</span>
                         <div className={styles.quantidade}>
-                          <button onClick={() => decrementar(produto.id || index)}> ➖ </button>
-                          <span>{quantidade[produto.id || index] || 1}</span>
-                          <button onClick={() => incrementar(produto.id || index)}> ➕ </button>
+                          <button onClick={() => decrementar(produto.id)}> ➖ </button>
+                          <span>{quantidade[produto.id] || 1}</span>
+                          <button onClick={() => incrementar(produto.id)}> ➕ </button>
                         </div>
                         <button
                           className={styles.botaoAdd}
-                          onClick={() => adicionarAoCarrinho(produto, quantidade[produto.id || index] || 1)}
+                          onClick={() => adicionarAoCarrinho(produto, quantidade[produto.id] || 1)}
                         >
                           Add to cart
                         </button>
