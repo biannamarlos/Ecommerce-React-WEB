@@ -22,6 +22,7 @@ export function Navbar({ onInicio, nomeUsuario }) {
       </div>
       
       <ul className={styles.navItens}>
+
         <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
         {nomeUsuario ? (
         <li onClick={handleLogout} className={styles.navLogout}>Logout</li>
@@ -33,6 +34,7 @@ export function Navbar({ onInicio, nomeUsuario }) {
         </>
         
       )}
+
       </ul>
         
      
