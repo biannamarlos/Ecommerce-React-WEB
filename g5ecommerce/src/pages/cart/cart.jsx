@@ -67,14 +67,42 @@ export function Cart() {
     );
   }
 
-  function excluir(id) {
-    setCartList((prevCart) =>
-      prevCart.map((item) => ({
-        ...item,
-        itens: item.itens.filter((produto) => produto.id !== id),
-      }))
-    );
+  function excluirItem(usuarioId, itemId) {
+    // Primeiro, obtém o carrinho do usuário para preservar os itens restantes
+    usuarioId = localStorage.getItem("usuario");
+    alert("Apagando usuário: " + usuarioId + "item: " + itemId);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Considerando que há apenas um carrinho por usuário
+          const itensAtualizados = carrinho.itens.filter((produto) => produto.id !== itemId);
+
+          // Atualiza o carrinho na API com a nova lista de itens
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local do carrinho após a exclusão bem-sucedida
+        setCartList((prevCart) =>
+          prevCart.map((item) => ({
+            ...item,
+            itens: item.itens.filter((produto) => produto.id !== itemId),
+          }))
+        );
+      })
+      .catch((error) => console.error("Erro ao excluir item:", error));
   }
+
+  // function excluir(id) {
+  //   setCartList((prevCart) =>
+  //     prevCart.map((item) => ({
+  //       ...item,
+  //       itens: item.itens.filter((produto) => produto.id !== id),
+  //     }))
+  //   );
+  // }
   const totalValor = cartList.reduce((acc, item) => {
     return acc + item.itens.reduce((subAcc, produto) => subAcc + parseFloat(produto.preco) * produto.quantidade, 0);
   }, 0);
@@ -111,7 +139,7 @@ export function Cart() {
               <span> ´Quantidade: {produto.quantidade} `</span>
               <button onClick={() => decrementar(produto.id)}> ➖ </button>
               <button onClick={() => incrementar(produto.id)}> ➕ </button>
-              <button onClick={() => excluir(produto.id)}> 🗑️ </button>
+              <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button>
               {/* </p> */}
               <p>
                 <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}

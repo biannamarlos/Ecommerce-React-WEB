@@ -21,3 +21,8 @@ export const getUsuario = () => {
   const usuario = localStorage.getItem("usuario");
   return usuario;
 };
+
+export const getNomeUsuario = () => {
+  const nomeUsuario = localStorage.getItem("nomeUsuario");
+  return usuario;
+};
