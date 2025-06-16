@@ -55,7 +55,13 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-  
+    word-break: break-all;
+    white-space: nowrap;
+    line-height: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    
 }
 
 .infoColuna {
