@@ -1,0 +1,102 @@
+.container {
+  background-color: #332216;
+  color: #f7d9bc;
+  padding: 40px;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.titulo {
+  color: #be5103;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  animation: slideDown 1s ease-out;
+}
+
+.texto {
+  font-size: 1rem;
+  color: #e8d5b7;
+  animation: fadeIn 1s ease-in;
+}
+
+.agentes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  background-color: #4a2f1d;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.card:hover {
+  transform: scale(1.05) rotateZ(-1deg);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-height: 150px; /* Evita imagens excessivamente grandes */
+}
+
+.produtoImagem {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.card h2 {
+  color: #f3c68d;
+  font-size: 1.2rem;
+  margin: 10px 0 5px;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #e8d5b7;
+}
+
+/* Animações */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
