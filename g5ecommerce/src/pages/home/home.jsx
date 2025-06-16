@@ -17,6 +17,7 @@ export function HomePage() {
   const [quantidade, setQuantidade] = useState({});
   const nomeUsuario = localStorage.getItem("nomeUsuario");
 
+
   function irParaInicio() {
     setTela("inicio");
     setProdutos([]);
