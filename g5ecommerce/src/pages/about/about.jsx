@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styles from "../about/about.module.css";
 
 const agentes = [
@@ -6,12 +7,17 @@ const agentes = [
   { nome: "Mateus DevOps Interface", imagem: "/Mateus.png", descricao: "React para criar interfaces dinâmicas. Gerenciar o estado da aplicação, controlando diferentes telas e atualizando dados ao vivo. Conhecimento em manipulação de dados locais com localStorage, front-end com APIs REST. " },
   { nome: "Enzo DevOps enrollment", imagem: "/Enzo.png", descricao: "Controle de formulários e validação de dados. Implementação lógica de cadastro de usuários com integração a APIs REST, estruturando dados de forma organizada e tratando respostas e erros do servidor com feedback ao usuário. Ótimas práticas de organização com CSS Modules e uso eficiente de hooks como useState." },
   { nome: "Karen DevOps Presentation", imagem: "/Karen.png", descricao: "Componentes em React, organização de código, estilização com CSS Modules, navegação entre páginas. Participação da estruturação visual, contribuindo para a clareza e funcionalidade das interfaces." },
-  { nome: "Adriana DevOps Access", imagem: "/Adriana.png", descricao: "Manipular estados com hooks, controlar formulários e tratar eventos de envio. Implementou comunicação com API para validar o usuário, usar o armazenamento local (localStorage) para salvar informações do usuário logado. Cuidou da navegação usando React Router e aplicou estilos organizados com CSS Modules." },
+  { nome: "Adriana DevOps Access", imagem: "/Adriana.png", descricao: "Manipular estados com hooks, controlar formulários e tratar eventos de envio. Implementou comunicação com API para validar o usuário, usar o armazenamento local (localStorage) para salvar informações do usuário logado. Cuidou da navegação usando React Router e aplicou estilos organizados com CSS Modules." },
 ];
 
 function About() {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
+      <button className={styles.voltarBtn} onClick={() => navigate(-1)}>
+        ← Voltar
+      </button>
       <h1 className={styles.titulo}>Agentes da Equipe</h1>
       <div className={styles.agentes}>
         {agentes.map((agente, index) => (
@@ -36,4 +42,3 @@ function About() {
 }
 
 export default About;
-
