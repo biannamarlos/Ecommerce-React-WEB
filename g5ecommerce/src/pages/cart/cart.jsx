@@ -260,9 +260,8 @@ export function Cart() {
                 <span> Quantidade: {produto.quantidade} </span>
                 <button onClick={() => decrementar(produto.id)}> ➖ </button>
                 <button onClick={() => incrementar(produto.id)}> ➕ </button>
-                <button onClick={() => excluirItem(produto.id)}> 🗑️ </button>
-                {/* <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button> */}
                 <button onClick={() => atualizarItem(produto.id, produto.quantidade)}> ✔ </button>
+                <button onClick={() => excluirItem(produto.id)}> 🗑️ </button>
                 {/* </p> */}
                 <p>
                   <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}
