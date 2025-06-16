@@ -148,6 +148,62 @@ export function Cart() {
       .catch((error) => console.error("Erro ao excluir carrinho:", error))
       .finally(() => setLoading(false));
   }
+  function atualizarItem(produtoId, produtoQuantidade) {
+    setLoading(true);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Obtém o carrinho do usuário
+          const itensAtualizados = carrinho.itens.map((produto) =>
+            produto.id === produtoId ? { ...produto, quantidade: produtoQuantidade } : produto
+          );
+
+          // Atualiza na API com os novos valores
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local após sucesso na API
+        setCartList((prevCart) =>
+          prevCart.map((item) => ({
+            ...item,
+            itens: item.itens.map((produto) =>
+              produto.id === produtoId ? { ...produto, quantidade: produtoQuantidade } : produto
+            ),
+          }))
+        );
+      })
+      .catch((error) => console.error("Erro ao atualizar item:", error))
+      .finally(() => setLoading(false));
+  }
+
+  function excluirItem(itemId) {
+    // Primeiro, obtém o carrinho do usuário para preservar os itens restantes
+    const usuarioId = localStorage.getItem("usuario");
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Considerando que há apenas um carrinho por usuário
+          const itensAtualizados = carrinho.itens.filter((produto) => produto.id !== itemId);
+          // Atualiza o carrinho na API com a nova lista de itens
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local do carrinho após a exclusão bem-sucedida
+        setCartList((prevCart) =>
+          prevCart.map((item) => ({
+            ...item,
+            itens: item.itens.filter((produto) => produto.id !== itemId),
+          }))
+        );
+      })
+      .catch((error) => console.error("Erro ao excluir item:", error));
+  }
 
   function limparCarrinho() {
     setLoading(true);
@@ -204,9 +260,8 @@ export function Cart() {
                 <span> Quantidade: {produto.quantidade} </span>
                 <button onClick={() => decrementar(produto.id)}> ➖ </button>
                 <button onClick={() => incrementar(produto.id)}> ➕ </button>
-                <button onClick={() => excluirItem(produto.id)}> 🗑️ </button>
-                {/* <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button> */}
                 <button onClick={() => atualizarItem(produto.id, produto.quantidade)}> ✔ </button>
+                <button onClick={() => excluirItem(produto.id)}> 🗑️ </button>
                 {/* </p> */}
                 <p>
                   <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}
