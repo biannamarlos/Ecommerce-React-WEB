@@ -8,7 +8,7 @@ import { apiUsuarios as apiUC } from "../../services/api";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
 import { SideBarPerfil } from "../../components/sideBarPerfil/sideBarPerfil";
 import styles from "./profile.module.css"; 
-import jsPDF from "jspdf";
+// import jsPDF from "jspdf";
 
 export default function Perfil() {
 
