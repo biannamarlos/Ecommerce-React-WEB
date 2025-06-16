@@ -55,6 +55,10 @@
   cursor: pointer
 }
 
+.navLogout:hover {
+  cursor: pointer;
+}
+
 .carrinhoBtn {
   background: none;
   border: none;
