@@ -13,7 +13,7 @@ function About() {
   return (
     <div className={styles.container}>
       <h1 className={styles.titulo}>Agentes da Equipe</h1>
-      <div className={styles.agentes}>
+      <div>
         {agentes.map((agente, index) => (
           <div>
             {/* className={`${styles.card} ${styles.fadeIn}`} key={index} style={{ animationDelay: `${index * 0.2}s` }}> */}
