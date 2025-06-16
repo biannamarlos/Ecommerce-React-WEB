@@ -1,0 +1,30 @@
+.buttonSB {
+    border-radius: 8px;
+    border: 2px solid #000000;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: #be5103;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, left 0.3s;
+    position: fixed;
+    top: 1rem;
+    z-index: 1100;
+    margin-top: 50px;
+    margin-left: -15px;
+}
+
+.buttonSB:hover {
+    background-color: #a04302;
+    border-color: #a04302;
+    
+}
+
+.abrir {
+    left: 11rem;
+}
+
+.fechar {
+    left: 1rem;
+}

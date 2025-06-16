@@ -1,0 +1,43 @@
+.sidebar {
+    width: 10rem;
+    height: 100vh;
+    background-color: #be5103;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 2rem;
+    border: rgb(0, 0, 0) solid 1px;
+    transition: left 0.3s;
+}
+
+.abrirSidebar {
+  left: 0;
+}
+
+.fecharSidebar {
+  left: -10rem;
+}
+
+.sideItens {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    color: #F7D9BC;
+    font-weight: bold;
+    font-size: larger;
+    margin: 0;
+    padding: 0;
+}
+
+.produtos:hover {
+  cursor: pointer;
+}
+
+.categorias:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,80 @@
+div{
+    gap: 0px;
+}
+
+.registerEdit{
+    color: #F7D9BC;
+    background-color: #be5103;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+
+}
+
+.caixaEdit {
+    width: 40rem;
+    height: 55rem;
+    background-color: #332216;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 10px 10px 10px #332216;
+    flex-direction: column;
+}
+
+.dadosEdit{
+    margin-top: 1px;
+}
+
+.inputDados{
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    /* margin: 1rem; */
+}
+.inputDados input{
+    background-color: #be5103;
+    color: #F7D9BC;
+    width: 15rem;
+    height: 2rem;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+input::placeholder {
+  color: #F7D9BC;
+}
+
+.cadastraButton{
+    background-color: #be5103;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: #F7D9BC;
+    width: 7rem;
+    height: 2rem;
+    margin-left: 1rem;
+}
+
+.voltarButton{
+    margin-left: 1rem;
+}
+
+.buttonsEdit {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+    flex-direction: row;
+    
+}
+
+.buttonsEdit button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
