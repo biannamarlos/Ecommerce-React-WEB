@@ -90,9 +90,14 @@ export function Cart() {
       .catch((error) => console.error("Erro ao registrar pedido:", error));
   }
 
-  function exportarPedido() {
+  function exportarPedido(cartList) {
     if (!usuario || Object.keys(usuario).length === 0) {
       console.error("Usuário não encontrado");
+      return;
+    }
+
+    if (cartList.length === 0) {
+      console.error("Carrinho vazio");
       return;
     }
 
@@ -100,6 +105,7 @@ export function Cart() {
     doc.setFontSize(12);
     let y = 10;
 
+    // Informações do cliente
     const dadosExportados = {
       Nome: usuario.nome,
       Email: usuario.email,
@@ -116,13 +122,35 @@ export function Cart() {
       y += 10;
     });
 
+    y += 10;
+    doc.text("Produtos do pedido:", 10, y);
+    y += 10;
+
+    // Listando produtos do carrinho
+    cartList.forEach((item) => {
+      item.itens.forEach((produto) => {
+        doc.text(`- ${produto.nome} | Quantidade: ${produto.quantidade} | Preço: R$ ${produto.preco}`, 10, y);
+        y += 10;
+      });
+    });
+
+    doc.text(
+      `Total do pedido: R$ ${cartList
+        .reduce(
+          (acc, item) => acc + item.itens.reduce((subAcc, produto) => subAcc + produto.preco * produto.quantidade, 0),
+          0
+        )
+        .toFixed(2)}`,
+      10,
+      y
+    );
     doc.save(`Pedido_${usuario.id}_Cliente_${usuario.nome || "cliente"}.pdf`);
   }
 
   function finalizarCompras() {
     registrarPedido();
-    exportarPedido();
-    limparCarrinho();
+    exportarPedido(cartList);
+    limpa();
   }
 
   function limpa() {
@@ -274,7 +302,7 @@ export function Cart() {
         <p></p>
         <button onClick={limpa}>🗑️ Limpar Carrinho</button>
         <p></p>
-        <button>Finalizar Compra</button>
+        <button onClick={finalizarCompras}> ✔ Finalizar Compra </button>
         <p></p>
         <button onClick={() => navigate("/")}>Voltar</button>
       </div>
