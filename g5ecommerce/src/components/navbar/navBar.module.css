@@ -59,6 +59,10 @@
   cursor: pointer;
 }
 
+.navSobre:hover {
+  cursor: pointer
+}
+
 .carrinhoBtn {
   background: none;
   border: none;

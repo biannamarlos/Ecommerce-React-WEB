@@ -30,6 +30,7 @@ export function Navbar({ onInicio, nomeUsuario }) {
         <>
           <li className={styles.navLogin} title="Login" onClick={() => navigate("/login")}>Login</li>
           <li className={styles.navRegistro} title="Registro" onClick={()=> navigate("/cadastrar")} >Registro</li>
+          <li className={styles.navSobre} onClick={() => navigate("/about")}>Sobre</li>
         </>
         
       )}
