@@ -1,156 +1,160 @@
 import { useEffect, useState } from "react";
-
 import styles from "./cart.module.css";
-import { getCarrinho } from "../../services/carrinho";
-import { apiProdutos, apiPedidos, apiUsuarios, apiCarrinho } from "../../services/api";
-import axios from "axios";
+import { apiUsuarios, apiCarrinho } from "../../services/api";
+import { useNavigate } from "react-router-dom";
+import { getUsuario } from "../../utils/localstorage";
 
 export function Cart() {
-  localStorage.setItem("usuario", 33); // Definindo um usuário fixo para testes
-  const [usuarioId, setUsuarioId] = useState(() => localStorage.getItem("usuario"));
+  const navigate = useNavigate();
+  const [usuarioId] = useState(() => getUsuario());
   const [cartList, setCartList] = useState([]);
-  const [PodutosList, setPodutosList] = useState([]);
-  const [produto, setProduto] = useState([]);
-  const [usuario, setUsuario] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [usuario, setUsuario] = useState({});
   const [loading, setLoading] = useState(false);
-  // const totalPrice = useMemo(
-  //   () => cartList.reduce((acc, item) => acc + item.produto.preco * item.quantidade, 0),
-  //   [cartList]
-  // );
 
-  function carregarUsuario(UsuarioId) {
+  useEffect(() => {
+    //usuarioId = 33;
+    carregarUsuario(usuarioId);
+    carregarCarrinho(usuarioId);
+  }, [usuarioId]);
+
+  function carregarUsuario(usuarioId) {
     setLoading(true);
-    console.log("Carregando usuário com ID:", usuarioId);
     apiUsuarios
-      .get("/usuarios?id=" + usuarioId)
-      .then((response) => {
-        const userData = response.data[0]; // Supondo que seja um único usuário
-        setUsuario([
-          {
-            id: userData.id,
-            nome: userData.nome,
-            email: userData.email,
-            telefone: userData.telefone,
-            endRua: userData.endRua,
-            endNum: userData.endNum,
-            endBairro: userData.endBairro,
-            endCidade: userData.endCidade,
-            endUF: userData.endUF,
-          },
-        ]);
+      .get(`/usuarios?id=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setUsuario(data[0]);
+        }
       })
-      .catch((error) => {
-        console.log("Erro ao carregar usuário:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch((error) => console.error("Erro ao carregar usuário:", error))
+      .finally(() => setLoading(false));
   }
 
   function carregarCarrinho(usuarioId) {
-    console.log("Carregando Carrinho");
     setLoading(true);
-
     apiCarrinho
-      .get("/carrinho?usuario=" + usuarioId)
-      .then((response) => {
-        if (response.data && response.data.length > 0) {
-          setCartList(response.data);
-          let idProduto = response.data.map((item) => item.produto);
-          idProduto.forEach((produtoId) => {
-            try {
-              carregarProdutos(produtoId);
-            } catch (error) {
-              console.log("Erro ao carregar produto:", error);
-            }
-          });
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setCartList(data);
         } else {
-          console.log("Nenhum item encontrado no carrinho.");
+          navigate("/");
         }
       })
-      .catch((error) => {
-        console.log("Erro ao carregar carrinho:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch((error) => console.error("Erro ao carregar carrinho:", error))
+      .finally(() => setLoading(false));
   }
-  console.log("Carrinho", cartList);
-
-  const adicionarProduto = (produto) => {
-    const novosProdutos = [...PodutosList, produto];
-    setPodutosList(novosProdutos);
-  };
-  console.log(PodutosList);
-
-  function carregarProdutos(idProduto) {
-    setLoading(true);
-    console.log("/Produto?id=" + idProduto);
-    apiProdutos
-      .get("/Produto?id=" + idProduto)
-      .then((response) => {
-        setProduto(response.data);
-        adicionarProduto(response.data);
-      
-        console.log("Produto carregado com sucesso", produto);
-        console.log("ID do Produto", idProduto);
-      })
-
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    console.log("Carregando Produto");
+  function incrementar(id) {
+    setCartList((prevCart) =>
+      prevCart.map((item) => ({
+        ...item,
+        itens: item.itens.map((produto) =>
+          produto.id === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
+        ),
+      }))
+    );
   }
 
-  // //UPDATE
-  // const updateProduct = () => {
-  //   //instanciando a requisição, depois da url base passar o endpoint e o requestBody
-  //   api
-  //     .put("/products", newProduct)
-  //     .then((response) => {
-  //       //tratativa caso a requisição for bem sucedida
-  //       response.status === 200 ? console.log("deu certo") : "";
-  //     })
-  //     .catch((error) => {
-  //       //tratativa caso a requisição não for bem sucedida
-  //       console.log(error);
-  //     });
-  // };
+  function decrementar(id) {
+    setCartList((prevCart) =>
+      prevCart.map((item) => ({
+        ...item,
+        itens: item.itens.map((produto) =>
+          produto.id === id ? { ...produto, quantidade: Math.max(1, produto.quantidade - 1) } : produto
+        ),
+      }))
+    );
+  }
 
-  useEffect(() => {
-    carregarUsuario(usuarioId);
-    carregarCarrinho(usuarioId);
-  }, []);
-  // let nomeusuario = localStorage.getItem("Musuario");
+  function excluirItem(usuarioId, itemId) {
+    // Primeiro, obtém o carrinho do usuário para preservar os itens restantes
+    usuarioId = localStorage.getItem("usuario");
+    alert("Apagando usuário: " + usuarioId + "item: " + itemId);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Considerando que há apenas um carrinho por usuário
+          const itensAtualizados = carrinho.itens.filter((produto) => produto.id !== itemId);
+
+          // Atualiza o carrinho na API com a nova lista de itens
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local do carrinho após a exclusão bem-sucedida
+        setCartList((prevCart) =>
+          prevCart.map((item) => ({
+            ...item,
+            itens: item.itens.filter((produto) => produto.id !== itemId),
+          }))
+        );
+      })
+      .catch((error) => console.error("Erro ao excluir item:", error));
+  }
+
+  // function excluir(id) {
+  //   setCartList((prevCart) =>
+  //     prevCart.map((item) => ({
+  //       ...item,
+  //       itens: item.itens.filter((produto) => produto.id !== id),
+  //     }))
+  //   );
+  // }
+  const totalValor = cartList.reduce((acc, item) => {
+    return acc + item.itens.reduce((subAcc, produto) => subAcc + parseFloat(produto.preco) * produto.quantidade, 0);
+  }, 0);
 
   return (
     <div className={styles.container}>
-      <p>Cliente: {usuario[0].nome}</p>
-      <p>Email: {usuario[0].email}</p>
-      <p>Telefone: {usuario[0].telefone}</p>
-      <h3> ** Carrinho de Compras **</h3>
-      <div className={styles.cardList}>
-        {cartList.map((produto, id) => (
-          <div key={id}>
-            {id + 1} - {produto.produto}
-            {/* <b>{<produto.produto.getItem.nome}</b> */}
-            <p>{produto.produto.descricao}</p>
-            <b>R$ {produto.produto.preco}</b> <br />
-            <b>Quantidade:</b> {produto.quantidade}
-            {/* <button onClick={() => updateProduct()}>Atualizar</button> */}
-            {<button> + </button>}
-            {<button> - </button>}
-            {/* {<button onClick={() => deleteProduct(produto.id)}>Deletar</button>} */}
-            {/* <button onClick={() => getAllProducts()}>Listar</button> */}
-            {/* <button onClick={() => setProduto(product.id)}>Editar</button> */}
-            {/* <img src={product.foto} alt="" /> */}
-          </div>
-        ))}
+      {/* <h3>🛒 Carrinho de Compras</h3> */}
+      <div className={styles.total}>
+        <h3>🛒 Carrinho de Compras - 🛍️ Total Geral: R$ {totalValor.toFixed(2)}</h3>
       </div>
+      <div className={styles.cardCliente}>
+        {usuario.nome && (
+          <>
+            <p className={styles.clienteNome}>{usuario.nome}</p>
+            <p className={styles.clienteInfo}>Email: {usuario.email}</p>
+            <p className={styles.clienteContato}>Telefone: {usuario.telefone}</p>
+          </>
+        )}
+      </div>
+      {/* Container com GRID */}
+      <div className={styles.produtosGrid}>
+        {cartList.map((item) =>
+          item.itens.map((produto) => (
+            <div key={produto.id} className={styles.produtoCard}>
+              <img src={produto.foto} alt={produto.nome} className={styles.produtoImagem} />
+              <p>
+                <strong>
+                  {produto.nome} Preço R$ {parseFloat(produto.preco).toFixed(2)}
+                </strong>
+              </p>
+              <p>{produto.descricao}</p>
+
+              {/* <p className={styles.quantidade}> */}
+              <span> ´Quantidade: {produto.quantidade} `</span>
+              <button onClick={() => decrementar(produto.id)}> ➖ </button>
+              <button onClick={() => incrementar(produto.id)}> ➕ </button>
+              <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button>
+              {/* </p> */}
+              <p>
+                <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
+
+      <p></p>
+      <button>Finalizar Compra</button>
+      <p></p>
+      <button onClick={() => navigate("/")}>Voltar</button>
     </div>
   );
 }
+
 export default Cart;
