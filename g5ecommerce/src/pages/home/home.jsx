@@ -146,7 +146,7 @@ async function adicionarAoCarrinho(produto, quantidadeParaAdicionar) {
                         <img src={produto.foto} alt={produto.nome} className={styles.imagemProduto} />
                         <strong className={styles.nome}>{produto.nome}</strong>
                         <span className={styles.preco}>R$ {produto.preco}</span>
-                        <span className={styles.descricao}>Descrição: {produto.descricao}</span>
+                        <span className={styles.descricao}>{produto.descricao}</span>
                         <div className={styles.quantidade}>
                           <button onClick={() => decrementar(produto.id)}> ➖ </button>
                           <span>{quantidade[produto.id] || 1}</span>
