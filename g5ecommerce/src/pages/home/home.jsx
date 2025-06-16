@@ -17,7 +17,6 @@ export function HomePage() {
   const [quantidade, setQuantidade] = useState({});
   const nomeUsuario = localStorage.getItem("nomeUsuario");
 
-
   function irParaInicio() {
     setTela("inicio");
     setProdutos([]);
@@ -74,53 +73,43 @@ export function HomePage() {
       [id]: q[id] > 1 ? q[id] - 1 : 1,
     }));
   }
+  async function adicionarAoCarrinho(produto, quantidadeParaAdicionar) {
+    const usuarioId = localStorage.getItem("usuario");
 
-
-async function adicionarAoCarrinho(produto, quantidadeParaAdicionar) {
-  const usuarioId = localStorage.getItem("usuario");
-  let carrinhoApi = [];
-
-  try {
-    const { data } = await apiCarrinho.get(`/carrinho?usuario=${usuarioId}`);
-    if (data && data.length > 0) {
-      carrinhoApi = data[0].itens || [];
-      const indexProduto = carrinhoApi.findIndex(item => item.id === produto.id);
-      if (indexProduto >= 0) {
-        carrinhoApi[indexProduto].quantidade += quantidadeParaAdicionar;
-      } else {
-        carrinhoApi.push({ ...produto, quantidade: quantidadeParaAdicionar });
-      }
-      await apiCarrinho.put(`/carrinho/${data[0].id}`, {
-        usuario: usuarioId,
-        itens: carrinhoApi,
-      });
-    } else {
-      carrinhoApi = [{ ...produto, quantidade: quantidadeParaAdicionar }];
-      await apiCarrinho.post(`/carrinho`, {
-        usuario: usuarioId,
-        itens: carrinhoApi,
-      });
+    if (!usuarioId) {
+      alert("Você precisa estar logado para adicionar itens ao carrinho!");
+      return;
     }
-    alert("Produto adicionado ao carrinho!");
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      try {
+
+    let carrinhoApi = [];
+
+    try {
+      const { data } = await apiCarrinho.get(`/carrinho?usuario=${usuarioId}`);
+      if (data && data.length > 0) {
+        carrinhoApi = data[0].itens || [];
+        const indexProduto = carrinhoApi.findIndex((item) => item.id === produto.id);
+        if (indexProduto >= 0) {
+          carrinhoApi[indexProduto].quantidade += quantidadeParaAdicionar;
+        } else {
+          carrinhoApi.push({ ...produto, quantidade: quantidadeParaAdicionar });
+        }
+        await apiCarrinho.put(`/carrinho/${data[0].id}`, {
+          usuario: usuarioId,
+          itens: carrinhoApi,
+        });
+      } else {
         carrinhoApi = [{ ...produto, quantidade: quantidadeParaAdicionar }];
         await apiCarrinho.post(`/carrinho`, {
           usuario: usuarioId,
           itens: carrinhoApi,
         });
-        alert("Produto adicionado ao carrinho!");
-      } catch (err) {
-        alert("Falha ao salvar carrinho na API!");
-        console.error(err);
       }
-    } else {
+      alert("Produto adicionado ao carrinho!");
+    } catch (error) {
       alert("Falha ao salvar carrinho na API!");
       console.error(error);
     }
   }
-}
 
   return (
     <>

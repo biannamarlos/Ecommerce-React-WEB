@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { apiUsuarios as apiUC } from "../../services/api";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
 import { SideBarPerfil } from "../../components/sideBarPerfil/sideBarPerfil";
-import styles from "./profile.module.css"; 
+import styles from "./profile.module.css";
 import jsPDF from "jspdf";
 
 export default function Perfil() {
@@ -34,6 +34,7 @@ export default function Perfil() {
   // TRAZ OS DADOS DO USUÁRIO LOGADO E SALVA NO SETUSER
   const getUserData = () => {
     console.log("Buscando dados do usuário com ID:", userId);
+    apiUC;
     apiUC
       .get(`/usuarios/${userId}`)
       .then((res) => {
@@ -64,6 +65,7 @@ export default function Perfil() {
   const deletar = () => {
     const confirmar = confirm("Tem certeza que deseja deletar sua conta?");
     if (confirmar) {
+      apiUC;
       apiUC
         .delete(`/usuarios/${userId}`)
         .then(() => {
@@ -93,6 +95,7 @@ export default function Perfil() {
 
   // SALVA AS ALTERAÇÕES REALIZADAS NO USUÁRIO LOGADO
   const salvarAlteracoes = () => {
+    apiUC;
     apiUC
       .put(`/usuarios/${userId}`, formData)
       .then(() => {
@@ -138,10 +141,9 @@ export default function Perfil() {
 
   return (
     <div className={styles.container}>
-      <Navbar />
+      <Navbar onInicio={() => navigate("/")} nomeUsuario={user.nome} />
       <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
       <SideBarPerfil abrirSidebar={menuAberto} onEditar={alternarEdicao} onExcluir={deletar} onLogout={logout} />
-
       <div className={styles.profileWrapper}>
         <div className={styles.titleContainer}>
           <h1>Olá, {user.nome ? user.nome : "Usuário"}</h1>
@@ -207,163 +209,9 @@ export default function Perfil() {
               <input type="text" name="endNum" value={formData.endNum || ""} onChange={alterarCampo} />
             </div>
 
-
-    return (
-        <div className={styles.container}>
-            <Navbar onInicio={() => navigate("/")} nomeUsuario={user.nome} />
-            <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
-            <SideBarPerfil
-                abrirSidebar={menuAberto}
-                onEditar={alternarEdicao}
-                onExcluir={deletar}
-                onLogout={logout}
-            />
-
-            <div className={styles.profileWrapper}>
-                <div className={styles.titleContainer}>
-                    <h1>Olá, {user.nome ? user.nome : "Usuário"}</h1>
-                </div>
-                {!editando ? (
-                    <div className={styles.infoContainer}>
-                        <p><strong>Nome:</strong> {user.nome}</p>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Telefone:</strong> {user.telefone}</p>
-                        <p><strong>Endereço:</strong> {user.endRua}, {user.endNum} - {user.endCompl}</p>
-                        <p><strong>Bairro:</strong> {user.endBairro}</p>
-                        <p><strong>Cidade:</strong> {user.endCidade} - {user.endUF}</p>
-                        <p><strong>CEP:</strong> {user.endCEP}</p>
-                        <p><strong>Tipo:</strong> {user.tipo}</p>
-
-                        <div className={styles.buttonGroup}>
-                            <button onClick={alternarEdicao}>EDITAR PERFIL</button>
-                            <button onClick={logout}>LOGOUT</button>
-                            <button onClick={deletar}>DELETAR CONTA</button>
-                            <button onClick={exportarPDF}>EXPORTAR DADOS (PDF)</button>
-                        </div>
-                    </div>
-                ) : (
-                    <div className={styles.editContainer}>
-                        <div className={styles.inputGroup}>
-                            <label>Nome:</label>
-                            <input
-                                type="text"
-                                name="nome"
-                                value={formData.nome || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Email:</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Telefone:</label>
-                            <input
-                                type="text"
-                                name="telefone"
-                                value={formData.telefone || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Rua:</label>
-                            <input
-                                type="text"
-                                name="endRua"
-                                value={formData.endRua || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Número:</label>
-                            <input
-                                type="text"
-                                name="endNum"
-                                value={formData.endNum || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Complemento:</label>
-                            <input
-                                type="text"
-                                name="endCompl"
-                                value={formData.endCompl || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Bairro:</label>
-                            <input
-                                type="text"
-                                name="endBairro"
-                                value={formData.endBairro || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Cidade:</label>
-                            <input
-                                type="text"
-                                name="endCidade"
-                                value={formData.endCidade || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Estado (UF):</label>
-                            <input
-                                type="text"
-                                name="endUF"
-                                value={formData.endUF || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>CEP:</label>
-                            <input
-                                type="text"
-                                name="endCEP"
-                                value={formData.endCEP || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.inputGroup}>
-                            <label>Tipo:</label>
-                            <input
-                                type="text"
-                                name="tipo"
-                                value={formData.tipo || ""}
-                                onChange={alterarCampo}
-                            />
-                        </div>
-
-                        <div className={styles.buttonGroup}>
-                            <button onClick={salvarAlteracoes}>SALVAR</button>
-                            <button onClick={alternarEdicao}>CANCELAR</button>
-                        </div>
-                    </div>
-                )}
-
             <div className={styles.inputGroup}>
               <label>Complemento:</label>
               <input type="text" name="endCompl" value={formData.endCompl || ""} onChange={alterarCampo} />
-
             </div>
 
             <div className={styles.inputGroup}>
@@ -398,6 +246,7 @@ export default function Perfil() {
           </div>
         )}
       </div>
+       
     </div>
   );
 }
