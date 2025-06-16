@@ -17,5 +17,5 @@ export const apiCarrinho = axios.create({
 })
 
 export const apiPedido = axios.create({
-  baseURL: 'https://6850500be7c42cfd1798385d.mockapi.io/api/pedido'
+  baseURL: 'https://6850500be7c42cfd1798385d.mockapi.io/api'
 })
