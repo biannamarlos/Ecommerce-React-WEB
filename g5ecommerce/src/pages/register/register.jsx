@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styles from './register.module.css'
 import { apiUsuarios } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 export function Register(){
     const[nome, setNome] = useState("")
@@ -15,12 +16,12 @@ export function Register(){
     const[rua, setRua] = useState("")
     const[numero, setNumero] = useState("")
     const[complemento, setComplemento] = useState("")
+    const navigate = useNavigate();
 
     const handleRegister = (e) => {
     e.preventDefault();
 
     if (!nome || !email || !senha || !confirmaSenha || !telefone) {
-        alert("Preencha todos os campos obrigatórios!");
         return;
     }
 
@@ -51,6 +52,7 @@ export function Register(){
                 // Limpar os campos:
                 setNome(""); setEmail(""); setsenha(""); setConfirmaSenha(""); setTelefone("");
                 setCep(""); setCidade(""); setUf(""); setBairro(""); setRua(""); setNumero(""); setComplemento("");
+                navigate("/login")
             }
         })
         .catch((error) => {
@@ -59,12 +61,13 @@ export function Register(){
         });
 };
 
+const handleVoltar = () =>{
+    navigate("/")
+}
+
     return (
             <div className={styles.registerEdit}>
                 <div className={styles.caixaEdit}>
-                    <div className={styles.tituloEdit}>
-                        <h1>Cadastro</h1>
-                    </div>
                     <div className={styles.dadosEdit}>
                         <h1>Dados</h1>
                         <form 
@@ -82,7 +85,7 @@ export function Register(){
                                     />
                                 </div>
                                 <div className= {styles.inputDados}>
-                                    <p>email:</p>
+                                    <p>Email:</p>
                                     <input 
                                         type="email" 
                                         value={email}
@@ -91,7 +94,7 @@ export function Register(){
                                     />
                                 </div>
                                 <div className= {styles.inputDados}>
-                                    <p>senha:</p>
+                                    <p>Senha:</p>
                                     <input 
                                         type="password" 
                                         value={senha}
@@ -185,12 +188,21 @@ export function Register(){
                                     />
                                 </div>
                             </div> 
+                            <div className={styles.buttonsEdit}> 
                                 <button
                                     className={styles.cadastraButton}
                                     type='submit'
                                 >
                                     Cadastrar
                                 </button>
+                                <button
+                                    className={styles.cadastraButton}
+                                    type='text'
+                                    onClick={handleVoltar}
+                                >
+                                    Voltar
+                                </button>
+                            </div>   
                         </form>
                     </div>
                 </div>
