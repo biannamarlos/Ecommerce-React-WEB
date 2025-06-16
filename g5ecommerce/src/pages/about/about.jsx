@@ -1,23 +1,20 @@
 import styles from './about.module.css';
-import DandaraImg from './assets/Dandara.jpg';
-import MarlosImg from './assets/Marlos.jpg';
-import MateusImg from './assets/Mateus.jpg';
-import EnzoImg from './assets/Enzo.jpg';
-import KarenImg from './assets/Karen.jpg';
+
 
 const agentes = [
-  { nome: "Dandara", imagem: DandaraImg, descricao: "qualquer coisa." },
-  { nome: "Marlos", imagem: MarlosImg, descricao: "oi." },
-  { nome: "Mateus", imagem: MateusImg, descricao: "tudo bem." },
-  { nome: "Enzo", imagem: EnzoImg, descricao: "eu nao sei." },
-  { nome: "Karen", imagem: KarenImg, descricao: "sei de nada." }
+  { nome: "Dandara", imagem: "/imagens/Dandara.jpg", descricao: "qualquer coisa." },
+  { nome: "Marlos", imagem: "/imagens/Marlos.jpg", descricao: "oi." },
+  { nome: "Mateus", imagem: "/imagens/Mateus.jpg", descricao: "tudo bem." },
+  { nome: "Enzo", imagem: "/imagens/Enzo.jpg", descricao: "eu nao sei." },
+  { nome: "Karen", imagem: "/imagens/Karen.jpg", descricao: "sei de nada." }
 ];
+
 
 function About() {
   return (
     <div className={styles.container}>
       <h1 className={styles.titulo}>Agentes da Equipe</h1>
-      <div className={styles.agentes}>
+      <div>
         {agentes.map((agente, index) => (
           <div
             className={`${styles.card} ${styles.fadeIn}`}
