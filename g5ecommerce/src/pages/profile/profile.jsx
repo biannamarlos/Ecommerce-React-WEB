@@ -8,7 +8,7 @@ import { apiUsuarios as apiUC } from "../../services/api";
 import { ButtonSB } from "../../components/buttonSB/buttonSB";
 import { SideBarPerfil } from "../../components/sideBarPerfil/sideBarPerfil";
 import styles from "./profile.module.css"; 
-// import jsPDF from "jspdf";
+import jsPDF from "jspdf";
 
 export default function Perfil() {
 
@@ -140,8 +140,8 @@ export default function Perfil() {
 
     return (
         <div className={styles.container}>
-            <Navbar />
-           <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
+            <Navbar onInicio={() => navigate("/")} nomeUsuario={user.nome} />
+            <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
             <SideBarPerfil
                 abrirSidebar={menuAberto}
                 onEditar={alternarEdicao}

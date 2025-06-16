@@ -39,7 +39,7 @@ export function Navbar({ onInicio, nomeUsuario }) {
               Login
             </li>
             <li className={styles.navRegistro} title="Registro" onClick={() => navigate("/cadastrar")}>
-              Registro
+            Registro
             </li>
             <li className={styles.navSobre} onClick={() => navigate("/about")}>
               Sobre
