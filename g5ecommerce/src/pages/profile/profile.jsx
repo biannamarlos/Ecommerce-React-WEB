@@ -37,7 +37,7 @@ export default function Perfil() {
     const getUserData = () => {
     console.log("Buscando dados do usuário com ID:", userId);
     apiUC
-        .get(`/usuarios/${userId}`)
+        apiUC.get(`/usuarios/${userId}`)
         .then((res) => {
             console.log("Dados recebidos:", res.data);
             setUser(res.data);
@@ -67,7 +67,7 @@ export default function Perfil() {
         const confirmar = confirm("Tem certeza que deseja deletar sua conta?");
         if (confirmar) {
             apiUC
-            .delete(`/usuarios/${userId}`)
+            apiUC.delete(`/usuarios/${userId}`)
             .then(() => {
                 alert("Conta deletada com sucesso!");
                 logout();
@@ -96,7 +96,7 @@ export default function Perfil() {
     // SALVA AS ALTERAÇÕES REALIZADAS NO USUÁRIO LOGADO
     const salvarAlteracoes = () => {
         apiUC
-        .put(`/usuarios/${userId}`, formData)
+        apiUC.put(`/usuarios/${userId}`, formData)
         .then(() => {
             alert("Dados atualizados com sucesso!");
             setEditando(false);
@@ -130,7 +130,7 @@ export default function Perfil() {
         // CASO SEJA NULO, APRESENTA -
         // VALOR DE Y INCREMENTADO A CADA LINHA ESCRITA
         Object.entries(dadosExportados).forEach(([chave, valor]) => {
-            doc.text(`${chave}: ${valor || "-"}`, 10, y);
+           doc.text(`${chave}: ${valor || "-"}`, 10, y);
             y += 10;
         });
 
@@ -140,8 +140,8 @@ export default function Perfil() {
 
     return (
         <div className={styles.container}>
-            <Navbar />
-           <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
+            <Navbar onInicio={() => navigate("/")} nomeUsuario={user.nome} />
+            <ButtonSB abrirSidebar={menuAberto} onClick={alternarMenu} />
             <SideBarPerfil
                 abrirSidebar={menuAberto}
                 onEditar={alternarEdicao}
@@ -290,6 +290,6 @@ export default function Perfil() {
                     </div>
                 )}
             </div>
-        </div>
-    );
+        </div>
+    );
 }

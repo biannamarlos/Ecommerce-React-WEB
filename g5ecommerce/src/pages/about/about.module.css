@@ -1,8 +1,18 @@
+:global(html, body, #root) {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background-color: #332216;
   color: #f7d9bc;
   padding: 40px;
   min-height: 100vh;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -48,7 +58,13 @@
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
-  max-height: 150px; /* Evita imagens excessivamente grandes */
+  max-height: 200px;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.card img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
 .produtoImagem {
@@ -56,6 +72,7 @@
   height: auto;
   border-radius: 6px;
 }
+
 .card h2 {
   color: #f3c68d;
   font-size: 1.2rem;
@@ -65,6 +82,24 @@
 .card p {
   font-size: 0.95rem;
   color: #e8d5b7;
+}
+
+.voltarBtn {
+  align-self: flex-start;
+  background-color: #be5103;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+  animation: fadeIn 1s ease-in;
+}
+
+.voltarBtn:hover {
+  background-color: #a94702;
 }
 
 /* Animações */
