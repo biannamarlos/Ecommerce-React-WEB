@@ -67,17 +67,46 @@ export function Cart() {
     );
   }
 
-  function excluirItem(usuarioId, itemId) {
+  function atualizarItem(produtoId, produtoQuantidade) {
+    setLoading(true);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Obtém o carrinho do usuário
+          const itensAtualizados = carrinho.itens.map((produto) =>
+            produto.id === produtoId ? { ...produto, quantidade: produtoQuantidade } : produto
+          );
+
+          // Atualiza na API com os novos valores
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local após sucesso na API
+        setCartList((prevCart) =>
+          prevCart.map((item) => ({
+            ...item,
+            itens: item.itens.map((produto) =>
+              produto.id === produtoId ? { ...produto, quantidade: produtoQuantidade } : produto
+            ),
+          }))
+        );
+      })
+      .catch((error) => console.error("Erro ao atualizar item:", error))
+      .finally(() => setLoading(false));
+  }
+
+  function excluirItem(itemId) {
     // Primeiro, obtém o carrinho do usuário para preservar os itens restantes
-    usuarioId = localStorage.getItem("usuario");
-    alert("Apagando usuário: " + usuarioId + "item: " + itemId);
+    const usuarioId = localStorage.getItem("usuario");
     apiCarrinho
       .get(`/carrinho?usuario=${usuarioId}`)
       .then(({ data }) => {
         if (data.length > 0) {
           const carrinho = data[0]; // Considerando que há apenas um carrinho por usuário
           const itensAtualizados = carrinho.itens.filter((produto) => produto.id !== itemId);
-
           // Atualiza o carrinho na API com a nova lista de itens
           return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: itensAtualizados });
         }
@@ -94,15 +123,54 @@ export function Cart() {
       })
       .catch((error) => console.error("Erro ao excluir item:", error));
   }
+  function limparCarrinho() {
+    setLoading(true);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinho = data[0]; // Obtém o carrinho do usuário
+          return apiCarrinho.put(`/carrinho/${carrinho.id}`, { ...carrinho, itens: [] });
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Atualiza o estado local removendo todos os itens
+        setCartList([]);
+      })
+      .catch((error) => console.error("Erro ao limpar carrinho:", error))
+      .finally(() => setLoading(false));
+  }
 
-  // function excluir(id) {
-  //   setCartList((prevCart) =>
-  //     prevCart.map((item) => ({
-  //       ...item,
-  //       itens: item.itens.filter((produto) => produto.id !== id),
-  //     }))
-  //   );
-  // }
+  function limpa() {
+    limparCarrinho();
+    limpaUsuarioCarrinho();
+  }
+
+  function limpaUsuarioCarrinho() {
+    setLoading(true);
+    apiCarrinho
+      .get(`/carrinho?usuario=${usuarioId}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          const carrinhoId = data[0].id;
+          return apiCarrinho.delete(`/carrinho/${carrinhoId}`);
+        }
+        throw new Error("Carrinho não encontrado");
+      })
+      .then(() => {
+        // Limpa o estado local para refletir a exclusão
+        setCartList([]);
+      })
+      .catch((error) => console.error("Erro ao excluir carrinho:", error))
+      .finally(() => setLoading(false));
+  }
+
+  function finalizarCompras() {
+    // Gerar API - Pedidos
+    limpa();
+  }
+
   const totalValor = cartList.reduce((acc, item) => {
     return acc + item.itens.reduce((subAcc, produto) => subAcc + parseFloat(produto.preco) * produto.quantidade, 0);
   }, 0);
@@ -136,10 +204,12 @@ export function Cart() {
               <p>{produto.descricao}</p>
 
               {/* <p className={styles.quantidade}> */}
-              <span> ´Quantidade: {produto.quantidade} `</span>
+              <span> Quantidade: {produto.quantidade} </span>
               <button onClick={() => decrementar(produto.id)}> ➖ </button>
               <button onClick={() => incrementar(produto.id)}> ➕ </button>
-              <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button>
+              <button onClick={() => excluirItem(produto.id)}> 🗑️ </button>
+              {/* <button onClick={() => excluirItem(item.produto, produto.id)}> 🗑️ </button> */}
+              <button onClick={() => atualizarItem(produto.id, produto.quantidade)}> ✔ </button>
               {/* </p> */}
               <p>
                 <strong>Total:</strong> R$ {parseFloat(produto.preco * produto.quantidade).toFixed(2)}
@@ -149,6 +219,8 @@ export function Cart() {
         )}
       </div>
 
+      <p></p>
+      <button onClick={limpa}>🗑️ Limpar Carrinho</button>
       <p></p>
       <button>Finalizar Compra</button>
       <p></p>

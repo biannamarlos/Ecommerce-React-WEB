@@ -1,0 +1,25 @@
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+.product-card,
+.cart-item,
+.buyer-info {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.promo-price {
+  text-decoration: line-through;
+  color: red;
+}
+
+.quantity-control button {
+  margin: 5px;
+}
