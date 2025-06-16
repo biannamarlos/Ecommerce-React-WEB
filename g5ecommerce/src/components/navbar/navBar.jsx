@@ -4,6 +4,12 @@ import styles from "./navBar.module.css"
 export function Navbar({ onInicio, nomeUsuario }) {
   const navigate = useNavigate();
 
+  function handleLogout() {
+    localStorage.removeItem("nomeUsuario");
+    localStorage.removeItem("usuario");
+    window.location.reload();
+  }
+
   return (
     <nav className={styles.navbar}>
       
@@ -17,9 +23,17 @@ export function Navbar({ onInicio, nomeUsuario }) {
       
       <ul className={styles.navItens}>
         <li className={styles.navInicio} onClick={onInicio}>Inicio</li>
-        <li className={styles.navRegistro} title="Registro" onClick={()=> navigate("/cadastrar")} >Registro</li>
-        <li className={styles.navLogin} title="Login" onClick={() => navigate("/login")}>Login</li>
+        {nomeUsuario ? (
+        <li onClick={handleLogout} className={styles.navLogout}>Logout</li>
+      ) : (
+        <>
+          <li className={styles.navLogin} title="Login" onClick={() => navigate("/login")}>Login</li>
+          <li className={styles.navRegistro} title="Registro" onClick={()=> navigate("/cadastrar")} >Registro</li>
+        </>
+        
+      )}
       </ul>
+        
      
       <button className={styles.carrinhoBtn} title="Carrinho" onClick={() => navigate("/carrinho")}>
         🛒
@@ -28,7 +42,5 @@ export function Navbar({ onInicio, nomeUsuario }) {
         {nomeUsuario}
       </span>
     </nav>
-  );
+      );
 }
-
-
