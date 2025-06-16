@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./navBar.module.css";
+import styles from "../navbarcart/navBarCart.module.css";
 
-export function Navbar({ onInicio, nomeUsuario }) {
+export function NavbarCart({ onInicio, nomeUsuario }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -25,14 +25,9 @@ export function Navbar({ onInicio, nomeUsuario }) {
           Inicio
         </li>
         {nomeUsuario ? (
-          <>
-            <li onClick={handleLogout} className={styles.navLogout}>
-              Logout
-            </li>
-            <li className={styles.navSobre} onClick={() => navigate("/about")}>
-              Sobre
-            </li>
-          </>
+          <li onClick={handleLogout} className={styles.navLogout}>
+            Logout
+          </li>
         ) : (
           <>
             <li className={styles.navLogin} title="Login" onClick={() => navigate("/login")}>
@@ -40,9 +35,6 @@ export function Navbar({ onInicio, nomeUsuario }) {
             </li>
             <li className={styles.navRegistro} title="Registro" onClick={() => navigate("/cadastrar")}>
               Registro
-            </li>
-            <li className={styles.navSobre} onClick={() => navigate("/about")}>
-              Sobre
             </li>
           </>
         )}
